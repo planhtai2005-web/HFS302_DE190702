@@ -22,7 +22,9 @@ public class EmployeeDAO {
 
         try {
             em.getTransaction().begin();
+
             em.persist(e);
+
             em.getTransaction().commit();
 
         } catch (Exception ex) {
@@ -99,6 +101,33 @@ public class EmployeeDAO {
             return em.createQuery(jpql, Employee.class)
                     .setParameter("salary", salary)
                     .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    // TODO 0.6 - UPDATE
+    public void update(Employee e) {
+
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+
+            // Entity truyen vao co the dang Detached
+            // merge() tra ve object Managed
+            e = em.merge(e);
+
+            em.getTransaction().commit();
+
+        } catch (Exception ex) {
+
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+
+            throw ex;
 
         } finally {
             em.close();
