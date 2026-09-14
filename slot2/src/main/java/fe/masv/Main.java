@@ -125,6 +125,60 @@ public class Main {
         } else {
             System.out.println("Employee still exists");
         }
+        // ========================================
+// TODO 9 - TEST UNIQUE EMAIL
+// ========================================
+
+        System.out.println("\n===== TODO 9 - UNIQUE EMAIL =====");
+
+        try {
+
+            Employee employee1 = new Employee(
+                    "Employee One",
+                    "duplicate@gmail.com",
+                    new BigDecimal("10000000"),
+                    Gender.MALE,
+                    LocalDate.of(2023, 1, 1),
+                    true
+            );
+
+            Employee employee2 = new Employee(
+                    "Employee Two",
+                    "duplicate@gmail.com",
+                    new BigDecimal("12000000"),
+                    Gender.FEMALE,
+                    LocalDate.of(2024, 1, 1),
+                    true
+            );
+
+            dao.save(employee1);
+
+            System.out.println(
+                    "Employee 1 saved: " + employee1.getId()
+            );
+
+            try {
+
+                dao.save(employee2);
+
+                System.out.println(
+                        "ERROR: Employee 2 was saved"
+                );
+
+            } catch (Exception ex) {
+
+                System.out.println(
+                        "Employee 2 rejected because email is UNIQUE"
+                );
+            }
+
+        } catch (Exception ex) {
+
+            System.out.println(
+                    "Error while testing UNIQUE email: "
+                            + ex.getMessage()
+            );
+        }
 
         emf.close();
     }
