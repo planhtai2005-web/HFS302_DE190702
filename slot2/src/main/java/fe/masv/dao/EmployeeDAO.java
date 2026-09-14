@@ -1,4 +1,4 @@
-﻿package fe.masv.dao;
+package fe.masv.dao;
 
 import fe.masv.pojo.Employee;
 import jakarta.persistence.EntityManager;
@@ -22,7 +22,9 @@ public class EmployeeDAO {
 
         try {
             em.getTransaction().begin();
-
+            // Entity e dang o trang thai New / Transient
+// persist() dua entity vao Persistence Context
+// Sau persist(), entity chuyen sang Managed
             em.persist(e);
 
             em.getTransaction().commit();
@@ -46,6 +48,8 @@ public class EmployeeDAO {
         EntityManager em = emf.createEntityManager();
 
         try {
+            // find() tim entity trong Persistence Context
+// Neu tim thay, entity o trang thai Managed
             return em.find(Employee.class, id);
 
         } finally {
@@ -116,7 +120,8 @@ public class EmployeeDAO {
             em.getTransaction().begin();
 
             // Entity truyen vao co the dang Detached
-            // merge() tra ve object Managed
+// merge() dua du lieu cua entity vao Persistence Context
+// merge() tra ve entity o trang thai Managed
             e = em.merge(e);
 
             em.getTransaction().commit();
@@ -141,10 +146,12 @@ public class EmployeeDAO {
 
         try {
             em.getTransaction().begin();
-
+// find() dua entity vao Persistence Context
+// Entity o trang thai Managed
             Employee e = em.find(Employee.class, id);
 
             if (e != null) {
+                // remove() chuyen entity sang trang thai Removed
                 em.remove(e);
             }
 
