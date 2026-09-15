@@ -17,17 +17,20 @@ public class Main {
         System.out.println("Number of departments: "
                 + departments.size());
 
-        // Access employees of each department
-        // This demonstrates the N+1 query problem
+        // Load employees using JOIN FETCH
         for (Department department : departments) {
 
+            Department departmentWithEmployees =
+                    departmentDAO.findWithEmployees(department.getId());
+
             System.out.println(
-                    "Department: " + department.getName()
+                    "Department: "
+                            + departmentWithEmployees.getName()
             );
 
             System.out.println(
                     "Number of employees: "
-                            + department.getEmployees().size()
+                            + departmentWithEmployees.getEmployees().size()
             );
         }
     }
