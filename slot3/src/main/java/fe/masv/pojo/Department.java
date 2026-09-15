@@ -61,4 +61,13 @@ public class Department {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+    public void addEmployee(Employee e) {
+        this.employees.add(e);
+        e.setDepartment(this);
+    }
+
+    public void removeEmployee(Employee e) {
+        this.employees.remove(e);
+        e.setDepartment(null);
+    }
 }
