@@ -104,6 +104,10 @@ public class Employee {
     public Set<Project> getProjects() {
         return projects;
     }
+    public void assignToProject(Project p) {
+        this.projects.add(p);
+        p.getEmployees().add(this);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
