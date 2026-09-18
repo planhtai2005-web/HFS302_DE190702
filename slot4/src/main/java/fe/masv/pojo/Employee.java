@@ -3,6 +3,8 @@ package fe.masv.pojo;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -25,6 +27,14 @@ public class Employee {
     private Gender gender;
 
     private boolean active = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "employee_project",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
 
     public Employee() {
     }
@@ -89,5 +99,9 @@ public class Employee {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
     }
 }
