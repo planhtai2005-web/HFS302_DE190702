@@ -1,5 +1,6 @@
 package fe.masv;
 
+import fe.masv.dao.EmployeeDAO;
 import fe.masv.pojo.Employee;
 import fe.masv.pojo.Gender;
 import fe.masv.pojo.Project;
@@ -207,6 +208,34 @@ public class Main {
             for (Employee e : projectA.getEmployees()) {
                 System.out.println(" - " + e.getFullName());
             }
+
+            // =========================
+            // TODO 5.11
+            // Deactivate employee
+            // =========================
+
+            System.out.println("\n===== TODO 5.11: DEACTIVATE EMPLOYEE =====");
+
+            EmployeeDAO employeeDAO = new EmployeeDAO();
+
+            System.out.println(
+                    "Before deactivate: "
+                            + nv1.getFullName()
+                            + " | Active: "
+                            + nv1.isActive()
+            );
+
+            employeeDAO.deactivateEmployee(nv1.getId());
+
+            // Refresh NV1 to get the updated value from database
+            em.refresh(nv1);
+
+            System.out.println(
+                    "After deactivate: "
+                            + nv1.getFullName()
+                            + " | Active: "
+                            + nv1.isActive()
+            );
 
         } catch (Exception e) {
 
