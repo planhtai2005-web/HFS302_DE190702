@@ -77,7 +77,7 @@ public class Main {
             // 3. Assign Employees
             // =========================
 
-            // NV1 -> Project A + B
+            // NV1 -> Project A + Project B
             nv1.assignToProject(projectA);
             nv1.assignToProject(projectB);
 
@@ -153,6 +153,35 @@ public class Main {
             }
 
             // =========================
+            // TODO 5.10
+            // Find active employees
+            // who join more than 1 project
+            // =========================
+
+            System.out.println(
+                    "\n===== TODO 5.10: ACTIVE EMPLOYEES WITH MORE THAN 1 PROJECT ====="
+            );
+
+            var employees = em.createQuery(
+                    """
+                    SELECT e
+                    FROM Employee e
+                    WHERE e.active = true
+                      AND SIZE(e.projects) > 1
+                    """,
+                    Employee.class
+            ).getResultList();
+
+            for (Employee e : employees) {
+
+                System.out.println(
+                        e.getFullName()
+                                + " | Projects: "
+                                + e.getProjects().size()
+                );
+            }
+
+            // =========================
             // TODO 5.9
             // Unassign NV1 from Project A
             // =========================
@@ -171,7 +200,9 @@ public class Main {
             }
 
             // Check employees of Project A
-            System.out.println("\n" + projectA.getProjectName() + " employees:");
+            System.out.println(
+                    "\n" + projectA.getProjectName() + " employees:"
+            );
 
             for (Employee e : projectA.getEmployees()) {
                 System.out.println(" - " + e.getFullName());
