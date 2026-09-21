@@ -120,6 +120,37 @@ public class Main {
                 System.out.println(" - " + p.getProjectName());
             }
 
+            // =========================
+            // TODO 5.8
+            // Count active employees
+            // and sum salary per project
+            // =========================
+
+            System.out.println("\n===== ACTIVE EMPLOYEES / PROJECT =====");
+
+            var results = em.createQuery(
+                    """
+                    SELECT p.projectName, COUNT(e), SUM(e.salary)
+                    FROM Project p JOIN p.employees e
+                    WHERE e.active = true
+                    GROUP BY p.projectName
+                    """,
+                    Object[].class
+            ).getResultList();
+
+            for (Object[] row : results) {
+
+                String projectName = (String) row[0];
+                Long employeeCount = (Long) row[1];
+                BigDecimal totalSalary = (BigDecimal) row[2];
+
+                System.out.println(
+                        projectName
+                                + " | Employees: " + employeeCount
+                                + " | Total salary: " + totalSalary
+                );
+            }
+
         } catch (Exception e) {
 
             if (transaction.isActive()) {
@@ -129,6 +160,7 @@ public class Main {
             e.printStackTrace();
 
         } finally {
+
             em.close();
             JPAUtil.close();
         }
