@@ -18,6 +18,7 @@ public class Main {
         EntityTransaction transaction = em.getTransaction();
 
         try {
+
             transaction.begin();
 
             // =========================
@@ -149,6 +150,31 @@ public class Main {
                                 + " | Employees: " + employeeCount
                                 + " | Total salary: " + totalSalary
                 );
+            }
+
+            // =========================
+            // TODO 5.9
+            // Unassign NV1 from Project A
+            // =========================
+
+            System.out.println("\n===== TODO 5.9: UNASSIGN =====");
+
+            nv1.unassignFromProject(projectA);
+
+            System.out.println("\nAfter unassign NV1 from Project A:");
+
+            // Check projects of NV1
+            System.out.println(nv1.getFullName() + " projects:");
+
+            for (Project p : nv1.getProjects()) {
+                System.out.println(" - " + p.getProjectName());
+            }
+
+            // Check employees of Project A
+            System.out.println("\n" + projectA.getProjectName() + " employees:");
+
+            for (Employee e : projectA.getEmployees()) {
+                System.out.println(" - " + e.getFullName());
             }
 
         } catch (Exception e) {

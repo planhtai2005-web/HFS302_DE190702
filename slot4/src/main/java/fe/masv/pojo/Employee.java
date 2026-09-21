@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -28,6 +29,10 @@ public class Employee {
 
     private boolean active = true;
 
+    // =========================
+    // Many-to-Many relationship
+    // =========================
+
     @ManyToMany
     @JoinTable(
             name = "employee_project",
@@ -35,6 +40,10 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private Set<Project> projects = new HashSet<>();
+
+    // =========================
+    // Constructors
+    // =========================
 
     public Employee() {
     }
@@ -48,6 +57,10 @@ public class Employee {
         this.hireDate = hireDate;
         this.active = true;
     }
+
+    // =========================
+    // Getters / Setters
+    // =========================
 
     public Long getId() {
         return id;
@@ -104,10 +117,32 @@ public class Employee {
     public Set<Project> getProjects() {
         return projects;
     }
+
+    // =========================
+    // TODO 5.5
+    // Assign employee to project
+    // =========================
+
     public void assignToProject(Project p) {
         this.projects.add(p);
         p.getEmployees().add(this);
     }
+
+    // =========================
+    // TODO 5.9
+    // Unassign employee from project
+    // =========================
+
+    public void unassignFromProject(Project p) {
+        this.projects.remove(p);
+        p.getEmployees().remove(this);
+    }
+
+    // =========================
+    // TODO 5.4
+    // equals & hashCode
+    // =========================
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
