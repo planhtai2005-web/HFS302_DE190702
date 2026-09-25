@@ -56,4 +56,22 @@ public class StudentServiceImpl implements StudentService {
 
         return studentRepository.findAll(pageable);
     }
+
+    // TODO 8a
+    @Override
+    public Optional<Student> findByStudentCode(String studentCode) {
+        return studentRepository.findByStudentCode(studentCode);
+    }
+
+    // TODO 8b
+    @Override
+    public boolean isEmailExisted(String email) {
+        return studentRepository.existsByEmail(email);
+    }
+
+    // TODO 8c
+    @Override
+    public long countActive() {
+        return studentRepository.countByActiveTrue();
+    }
 }

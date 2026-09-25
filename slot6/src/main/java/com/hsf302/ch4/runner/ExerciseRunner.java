@@ -6,7 +6,6 @@ import com.hsf302.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,40 +20,28 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        todo7();
+        todo8();
     }
 
-    private void todo7() {
-        System.out.println("===== TODO 7: Sort & Pageable =====");
+    private void todo8() {
+        System.out.println("===== TODO 8: findBy / existsBy / countBy =====");
 
-        // (a) GPA giảm dần
-        printList(
-                "All students order by GPA desc",
-                studentService.findAllOrderByGpaDesc()
-        );
+        for (String code : List.of("AI002", "XX999")) {
+            System.out.println(
+                    "findByStudentCode(" + code + ") -> " +
+                            studentService.findByStudentCode(code)
+                                    .map(Object::toString)
+                                    .orElse("Not found")
+            );
+        }
 
-        // (b) Trang thứ 2 -> index 1
-        Page<Student> page = studentService.findPage(1, 3, "fullName");
-
-        printList(
-                "Page index " + page.getNumber()
-                        + " (size " + page.getSize() + ")",
-                page.getContent()
+        System.out.println(
+                "isEmailExisted(binh.tt@fpt.edu.vn) -> "
+                        + studentService.isEmailExisted("binh.tt@fpt.edu.vn")
         );
 
         System.out.println(
-                "totalElements=" + page.getTotalElements()
-                        + ", totalPages=" + page.getTotalPages()
-                        + ", hasNext=" + page.hasNext()
-                        + ", hasPrevious=" + page.hasPrevious()
+                "countActive -> " + studentService.countActive()
         );
-    }
-
-    private void printList(String title, List<Student> students) {
-        System.out.println(title);
-
-        for (Student student : students) {
-            System.out.println("  " + student);
-        }
     }
 }

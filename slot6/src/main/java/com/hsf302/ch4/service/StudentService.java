@@ -17,4 +17,13 @@ public interface StudentService {
 
     // TODO 7b
     Page<Student> findPage(int pageIndex, int size, String sortField);
+
+    // TODO 8a
+    Optional<Student> findByStudentCode(String studentCode);
+
+    // TODO 8b
+    boolean isEmailExisted(String email);
+
+    // TODO 8c
+    long countActive();
 }
