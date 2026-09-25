@@ -20,28 +20,33 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        todo8();
+        todo9();
     }
 
-    private void todo8() {
-        System.out.println("===== TODO 8: findBy / existsBy / countBy =====");
+    private void todo9() {
+        System.out.println("===== TODO 9: Containing / EndingWith / IsNull =====");
 
-        for (String code : List.of("AI002", "XX999")) {
-            System.out.println(
-                    "findByStudentCode(" + code + ") -> " +
-                            studentService.findByStudentCode(code)
-                                    .map(Object::toString)
-                                    .orElse("Not found")
-            );
+        printList(
+                "fullName contains 'nguyen'",
+                studentService.searchByName("nguyen")
+        );
+
+        printList(
+                "email domain 'gmail.com'",
+                studentService.findByEmailDomain("gmail.com")
+        );
+
+        printList(
+                "email is null",
+                studentService.findWithoutEmail()
+        );
+    }
+
+    private void printList(String title, List<Student> students) {
+        System.out.println(title);
+
+        for (Student student : students) {
+            System.out.println("  " + student);
         }
-
-        System.out.println(
-                "isEmailExisted(binh.tt@fpt.edu.vn) -> "
-                        + studentService.isEmailExisted("binh.tt@fpt.edu.vn")
-        );
-
-        System.out.println(
-                "countActive -> " + studentService.countActive()
-        );
     }
 }

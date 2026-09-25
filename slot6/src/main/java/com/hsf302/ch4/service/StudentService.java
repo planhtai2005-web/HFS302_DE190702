@@ -26,4 +26,13 @@ public interface StudentService {
 
     // TODO 8c
     long countActive();
+
+    // TODO 9a
+    List<Student> searchByName(String keyword);
+
+    // TODO 9b
+    List<Student> findByEmailDomain(String domain);
+
+    // TODO 9c
+    List<Student> findWithoutEmail();
 }
