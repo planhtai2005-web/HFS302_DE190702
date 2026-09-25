@@ -46,4 +46,12 @@ public interface StudentService {
 
     // TODO 10c
     List<Student> findBornAfter(LocalDate date);
+    // TODO 11a
+    List<Student> findByDepartment(String deptCode);
+
+    // TODO 11b
+    long countByDepartment(String deptCode);
+
+    // TODO 11c
+    List<Student> findTop3ByGpa();
 }

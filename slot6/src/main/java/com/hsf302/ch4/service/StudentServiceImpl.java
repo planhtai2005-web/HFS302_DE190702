@@ -127,4 +127,21 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> findBornAfter(LocalDate date) {
         return studentRepository.findByDobAfter(date);
     }
+    // TODO 11a
+    @Override
+    public List<Student> findByDepartment(String deptCode) {
+        return studentRepository.findByDepartment_CodeOrderByFullNameAsc(deptCode);
+    }
+
+    // TODO 11b
+    @Override
+    public long countByDepartment(String deptCode) {
+        return studentRepository.countByDepartment_Code(deptCode);
+    }
+
+    // TODO 11c
+    @Override
+    public List<Student> findTop3ByGpa() {
+        return studentRepository.findTop3ByOrderByGpaDesc();
+    }
 }

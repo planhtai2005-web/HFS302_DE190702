@@ -38,4 +38,12 @@ public interface StudentRepository
 
     // TODO 10c
     List<Student> findByDobAfter(LocalDate date);
+    // TODO 11a
+    List<Student> findByDepartment_CodeOrderByFullNameAsc(String code);
+
+    // TODO 11b
+    long countByDepartment_Code(String code);
+
+    // TODO 11c
+    List<Student> findTop3ByOrderByGpaDesc();
 }

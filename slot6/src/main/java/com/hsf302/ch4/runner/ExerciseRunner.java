@@ -1,6 +1,5 @@
 package com.hsf302.ch4.runner;
 
-import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
@@ -9,7 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -22,35 +20,38 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        todo10();
+        todo11();
     }
 
-    private void todo10() {
-        System.out.println("===== TODO 10: Between / Gender / DobAfter =====");
+    private void todo11() {
+        System.out.println("===== TODO 11: Nested property / Top / IsEmpty =====");
 
         printList(
-                "GPA from 2.0 to 3.5",
-                studentService.findByGpaRange(2.0, 3.5)
+                "Students of SE (order by name)",
+                studentService.findByDepartment("SE")
+        );
+
+        System.out.println(
+                "count students of AI -> "
+                        + studentService.countByDepartment("AI")
         );
 
         printList(
-                "active female students",
-                studentService.findActiveByGender(Gender.FEMALE)
+                "Top 3 GPA",
+                studentService.findTop3ByGpa()
         );
 
         printList(
-                "born after 2004-01-01",
-                studentService.findBornAfter(
-                        LocalDate.of(2004, 1, 1)
-                )
+                "Departments without students",
+                departmentService.findDepartmentsWithoutStudents()
         );
     }
 
-    private void printList(String title, List<Student> students) {
+    private void printList(String title, List<?> list) {
         System.out.println(title);
 
-        for (Student student : students) {
-            System.out.println("  " + student);
+        for (Object item : list) {
+            System.out.println("  " + item);
         }
     }
 }
