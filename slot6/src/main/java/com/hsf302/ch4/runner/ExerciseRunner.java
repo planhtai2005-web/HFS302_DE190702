@@ -21,6 +21,7 @@ public class ExerciseRunner implements CommandLineRunner {
     public void run(String... args) {
         todo11();
         todo12();
+        todo13();
     }
 
     private void todo11() {
@@ -54,6 +55,21 @@ public class ExerciseRunner implements CommandLineRunner {
         printList(
                 "SE, GPA >= 3.0",
                 studentService.findGoodStudents("SE", 3.0)
+        );
+    }
+
+    // TODO 13
+    private void todo13() {
+        System.out.println("===== TODO 13: JPQL LIKE =====");
+
+        printList(
+                "keyword 'hoa'",
+                studentService.searchByKeyword("hoa")
+        );
+
+        printList(
+                "keyword 'gmail'",
+                studentService.searchByKeyword("gmail")
         );
     }
 
