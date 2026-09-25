@@ -1,6 +1,5 @@
 package com.hsf302.ch4.runner;
 
-import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,7 @@ public class ExerciseRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
         todo11();
+        todo12();
     }
 
     private void todo11() {
@@ -44,6 +44,16 @@ public class ExerciseRunner implements CommandLineRunner {
         printList(
                 "Departments without students",
                 departmentService.findDepartmentsWithoutStudents()
+        );
+    }
+
+    // TODO 12
+    private void todo12() {
+        System.out.println("===== TODO 12: JPQL + named parameter =====");
+
+        printList(
+                "SE, GPA >= 3.0",
+                studentService.findGoodStudents("SE", 3.0)
         );
     }
 
