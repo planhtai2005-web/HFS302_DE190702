@@ -1,5 +1,6 @@
 package com.hsf302.ch4.runner;
 
+import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -20,25 +22,27 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        todo9();
+        todo10();
     }
 
-    private void todo9() {
-        System.out.println("===== TODO 9: Containing / EndingWith / IsNull =====");
+    private void todo10() {
+        System.out.println("===== TODO 10: Between / Gender / DobAfter =====");
 
         printList(
-                "fullName contains 'nguyen'",
-                studentService.searchByName("nguyen")
+                "GPA from 2.0 to 3.5",
+                studentService.findByGpaRange(2.0, 3.5)
         );
 
         printList(
-                "email domain 'gmail.com'",
-                studentService.findByEmailDomain("gmail.com")
+                "active female students",
+                studentService.findActiveByGender(Gender.FEMALE)
         );
 
         printList(
-                "email is null",
-                studentService.findWithoutEmail()
+                "born after 2004-01-01",
+                studentService.findBornAfter(
+                        LocalDate.of(2004, 1, 1)
+                )
         );
     }
 
