@@ -80,4 +80,15 @@ public class ExerciseRunner implements CommandLineRunner {
             System.out.println("  " + item);
         }
     }
+    // TODO 14
+    private void todo14() {
+        System.out.println("===== TODO 14: JPQL IN =====");
+
+        printList(
+                "Departments SE + AI",
+                studentService.findByDepartmentCodes(
+                        List.of("SE", "AI")
+                )
+        );
+    }
 }

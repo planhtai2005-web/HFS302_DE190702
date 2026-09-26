@@ -158,4 +158,13 @@ public class StudentServiceImpl implements StudentService {
 
         return studentRepository.searchByKeyword(keyword.trim());
     }
+    // TODO 14
+    @Override
+    public List<Student> findByDepartmentCodes(List<String> codes) {
+        if (codes == null || codes.isEmpty()) {
+            return List.of();
+        }
+
+        return studentRepository.findByDepartmentCodes(codes);
+    }
 }

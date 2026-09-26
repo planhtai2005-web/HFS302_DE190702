@@ -66,4 +66,9 @@ public interface StudentRepository
             "   OR LOWER(s.email) LIKE LOWER(CONCAT('%', :kw, '%')) " +
             "ORDER BY s.fullName")
     List<Student> searchByKeyword(@Param("kw") String keyword);
+    // TODO 14
+    @Query("SELECT s FROM Student s " +
+            "WHERE s.department.code IN :codes " +
+            "ORDER BY s.department.code, s.fullName")
+    List<Student> findByDepartmentCodes(@Param("codes") List<String> codes);
 }
