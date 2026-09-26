@@ -91,4 +91,13 @@ public class ExerciseRunner implements CommandLineRunner {
                 )
         );
     }
+    // TODO 15
+    private void todo15() {
+        System.out.println("===== TODO 15: Subquery - GPA above average =====");
+
+        printList(
+                "GPA > AVG",
+                studentService.findAboveAverageGpa()
+        );
+    }
 }

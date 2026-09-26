@@ -167,4 +167,9 @@ public class StudentServiceImpl implements StudentService {
 
         return studentRepository.findByDepartmentCodes(codes);
     }
+    // TODO 15
+    @Override
+    public List<Student> findAboveAverageGpa() {
+        return studentRepository.findAboveAverageGpa();
+    }
 }

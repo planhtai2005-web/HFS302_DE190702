@@ -62,4 +62,6 @@ public interface StudentService {
     List<Student> searchByKeyword(String keyword);
     // TODO 14
     List<Student> findByDepartmentCodes(List<String> codes);
+    // TODO 15
+    List<Student> findAboveAverageGpa();
 }
