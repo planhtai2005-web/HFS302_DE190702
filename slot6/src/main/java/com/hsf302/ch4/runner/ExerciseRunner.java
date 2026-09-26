@@ -1,13 +1,17 @@
+
 package com.hsf302.ch4.runner;
 
 import com.hsf302.ch4.dto.StudentSummary;
 import com.hsf302.ch4.pojo.Department;
+import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +26,6 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
         todo11();
         todo12();
         todo13();
@@ -31,11 +34,14 @@ public class ExerciseRunner implements CommandLineRunner {
         todo16();
         todo17();
         todo18();
+        todo19();
     }
 
     // TODO 11
     private void todo11() {
-        System.out.println("===== TODO 11: Nested property / Top / IsEmpty =====");
+        System.out.println(
+                "===== TODO 11: Nested property / Top / IsEmpty ====="
+        );
 
         printList(
                 "Students of SE (order by name)",
@@ -60,7 +66,9 @@ public class ExerciseRunner implements CommandLineRunner {
 
     // TODO 12
     private void todo12() {
-        System.out.println("===== TODO 12: JPQL + named parameter =====");
+        System.out.println(
+                "===== TODO 12: JPQL + named parameter ====="
+        );
 
         printList(
                 "SE, GPA >= 3.0",
@@ -97,7 +105,9 @@ public class ExerciseRunner implements CommandLineRunner {
 
     // TODO 15
     private void todo15() {
-        System.out.println("===== TODO 15: Subquery - GPA above average =====");
+        System.out.println(
+                "===== TODO 15: Subquery - GPA above average ====="
+        );
 
         printList(
                 "GPA > AVG",
@@ -122,28 +132,22 @@ public class ExerciseRunner implements CommandLineRunner {
                             + " students"
             );
         } catch (LazyInitializationException e) {
-
             System.out.println(
                     "(a) Caught: "
                             + e.getClass().getSimpleName()
             );
 
-            System.out.println(
-                    "    " + e.getMessage()
-            );
+            System.out.println("    " + e.getMessage());
         }
 
         Department aiFull =
                 departmentService.getWithStudents("AI");
 
-        System.out.println(
-                "(b) " + aiFull
-        );
+        System.out.println("(b) " + aiFull);
 
-        aiFull.getStudents()
-                .forEach(s ->
-                        System.out.println("     " + s)
-                );
+        aiFull.getStudents().forEach(s ->
+                System.out.println("     " + s)
+        );
     }
 
     // TODO 17
@@ -182,10 +186,44 @@ public class ExerciseRunner implements CommandLineRunner {
         );
     }
 
-    private void printList(
-            String title,
-            List<?> list
-    ) {
+    // TODO 19
+    private void todo19() {
+        System.out.println(
+                "===== TODO 19: Pagination active students ====="
+        );
+
+        Page<Student> page0 =
+                studentService.findActiveByDepartment(
+                        "SE",
+                        PageRequest.of(0, 2)
+                );
+
+        Page<Student> page1 =
+                studentService.findActiveByDepartment(
+                        "SE",
+                        PageRequest.of(1, 2)
+                );
+
+        System.out.println("Page 0:");
+        page0.getContent().forEach(s ->
+                System.out.println("   " + s)
+        );
+
+        System.out.println("Page 1:");
+        page1.getContent().forEach(s ->
+                System.out.println("   " + s)
+        );
+
+        System.out.println(
+                "totalElements = " + page0.getTotalElements()
+        );
+
+        System.out.println(
+                "totalPages = " + page0.getTotalPages()
+        );
+    }
+
+    private void printList(String title, List<?> list) {
         System.out.println(title);
 
         for (Object item : list) {

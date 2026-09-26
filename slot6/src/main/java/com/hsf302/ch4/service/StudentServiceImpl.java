@@ -173,4 +173,15 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentSummary> getActiveSummaries() {
         return studentRepository.findActiveSummaries();
     }
+    // TODO 19
+    @Override
+    public Page<Student> findActiveByDepartment(
+            String deptCode,
+            Pageable pageable
+    ) {
+        return studentRepository.findActiveByDepartment(
+                deptCode,
+                pageable
+        );
+    }
 }
