@@ -1,5 +1,6 @@
 package com.hsf302.ch4.runner;
 
+import com.hsf302.ch4.dto.StudentSummary;
 import com.hsf302.ch4.pojo.Department;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
@@ -21,12 +22,15 @@ public class ExerciseRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         todo11();
         todo12();
         todo13();
         todo14();
         todo15();
         todo16();
+        todo17();
+        todo18();
     }
 
     // TODO 11
@@ -113,11 +117,15 @@ public class ExerciseRunner implements CommandLineRunner {
 
         try {
             System.out.println(
-                    "AI has " + ai.getStudents().size() + " students"
+                    "AI has "
+                            + ai.getStudents().size()
+                            + " students"
             );
         } catch (LazyInitializationException e) {
+
             System.out.println(
-                    "(a) Caught: " + e.getClass().getSimpleName()
+                    "(a) Caught: "
+                            + e.getClass().getSimpleName()
             );
 
             System.out.println(
@@ -125,29 +133,63 @@ public class ExerciseRunner implements CommandLineRunner {
             );
         }
 
-        Department aiFull = departmentService.getWithStudents("AI");
+        Department aiFull =
+                departmentService.getWithStudents("AI");
 
-        System.out.println("(b) " + aiFull);
-
-        aiFull.getStudents().forEach(
-                s -> System.out.println("     " + s)
+        System.out.println(
+                "(b) " + aiFull
         );
+
+        aiFull.getStudents()
+                .forEach(s ->
+                        System.out.println("     " + s)
+                );
     }
 
-    private void printList(String title, List<?> list) {
-        System.out.println(title);
-
-        for (Object item : list) {
-            System.out.println("  " + item);
-        }
-    }
     // TODO 17
     private void todo17() {
-        System.out.println("===== TODO 17: Native query - TOP N =====");
+        System.out.println(
+                "===== TODO 17: Native query - TOP N ====="
+        );
 
         printList(
                 "Top 2 GPA of SE",
                 studentService.findTopNInDepartment("SE", 2)
         );
+    }
+
+    // TODO 18
+    private void todo18() {
+        System.out.println(
+                "===== TODO 18: Interface projection ====="
+        );
+
+        List<StudentSummary> list =
+                studentService.getActiveSummaries();
+
+        list.forEach(p ->
+                System.out.printf(
+                        "   %s | %-15s | %.1f | %s%n",
+                        p.getStudentCode(),
+                        p.getFullName(),
+                        p.getGpa(),
+                        p.getDepartmentName()
+                )
+        );
+
+        System.out.println(
+                "   -> " + list.size() + " record(s)"
+        );
+    }
+
+    private void printList(
+            String title,
+            List<?> list
+    ) {
+        System.out.println(title);
+
+        for (Object item : list) {
+            System.out.println("  " + item);
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.hsf302.ch4.service;
 
+import com.hsf302.ch4.dto.StudentSummary;
 import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,60 +12,57 @@ import java.util.Optional;
 
 public interface StudentService {
 
+    // TODO 6
     long count();
 
     Optional<Student> findById(Long id);
 
-    // TODO 7a
-    List<Student> findAllOrderByGpaDesc();
+    boolean existsById(Long id);
 
-    // TODO 7b
-    Page<Student> findPage(int pageIndex, int size, String sortField);
+    // TODO 7
+    List<Student> findAllSorted(String sortBy);
 
-    // TODO 8a
+    Page<Student> findAll(Pageable pageable);
+
+    // TODO 8
     Optional<Student> findByStudentCode(String studentCode);
 
-    // TODO 8b
-    boolean isEmailExisted(String email);
+    boolean existsByEmail(String email);
 
-    // TODO 8c
     long countActive();
 
-    // TODO 9a
-    List<Student> searchByName(String keyword);
+    // TODO 9
+    List<Student> findByFullNameContainingIgnoreCase(String keyword);
 
-    // TODO 9b
-    List<Student> findByEmailDomain(String domain);
+    List<Student> findByEmailEndingWith(String domain);
 
-    // TODO 9c
-    List<Student> findWithoutEmail();
+    List<Student> findByEmailIsNull();
 
-    // TODO 10a
     List<Student> findByGpaRange(double min, double max);
-
-    // TODO 10b
     List<Student> findActiveByGender(Gender gender);
-
-    // TODO 10c
     List<Student> findBornAfter(LocalDate date);
-
-    // TODO 11a
+    // TODO 11
     List<Student> findByDepartment(String deptCode);
 
-    // TODO 11b
     long countByDepartment(String deptCode);
 
-    // TODO 11c
     List<Student> findTop3ByGpa();
 
     // TODO 12
     List<Student> findGoodStudents(String deptCode, double minGpa);
+
     // TODO 13
     List<Student> searchByKeyword(String keyword);
+
     // TODO 14
     List<Student> findByDepartmentCodes(List<String> codes);
+
     // TODO 15
     List<Student> findAboveAverageGpa();
+
     // TODO 17
     List<Student> findTopNInDepartment(String deptCode, int n);
+
+    // TODO 18
+    List<StudentSummary> getActiveSummaries();
 }
