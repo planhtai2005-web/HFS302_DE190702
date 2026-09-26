@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +32,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> findDepartmentsWithoutStudents() {
         return departmentRepository.findByStudentsIsEmpty();
+    }
+
+    // TODO 16a
+    @Override
+    public Optional<Department> findByCode(String code) {
+        return departmentRepository.findByCode(code);
+    }
+
+    // TODO 16b
+    @Override
+    public Department getWithStudents(String code) {
+        return departmentRepository.findByCodeWithStudents(code)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Department not found: " + code));
     }
 }

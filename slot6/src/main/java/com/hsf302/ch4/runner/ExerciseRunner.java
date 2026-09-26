@@ -1,8 +1,10 @@
 package com.hsf302.ch4.runner;
 
+import com.hsf302.ch4.pojo.Department;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -22,8 +24,12 @@ public class ExerciseRunner implements CommandLineRunner {
         todo11();
         todo12();
         todo13();
+        todo14();
+        todo15();
+        todo16();
     }
 
+    // TODO 11
     private void todo11() {
         System.out.println("===== TODO 11: Nested property / Top / IsEmpty =====");
 
@@ -73,13 +79,6 @@ public class ExerciseRunner implements CommandLineRunner {
         );
     }
 
-    private void printList(String title, List<?> list) {
-        System.out.println(title);
-
-        for (Object item : list) {
-            System.out.println("  " + item);
-        }
-    }
     // TODO 14
     private void todo14() {
         System.out.println("===== TODO 14: JPQL IN =====");
@@ -91,6 +90,7 @@ public class ExerciseRunner implements CommandLineRunner {
                 )
         );
     }
+
     // TODO 15
     private void todo15() {
         System.out.println("===== TODO 15: Subquery - GPA above average =====");
@@ -99,5 +99,46 @@ public class ExerciseRunner implements CommandLineRunner {
                 "GPA > AVG",
                 studentService.findAboveAverageGpa()
         );
+    }
+
+    // TODO 16
+    private void todo16() {
+        System.out.println(
+                "===== TODO 16: LazyInitializationException & JOIN FETCH ====="
+        );
+
+        Department ai = departmentService
+                .findByCode("AI")
+                .orElseThrow();
+
+        try {
+            System.out.println(
+                    "AI has " + ai.getStudents().size() + " students"
+            );
+        } catch (LazyInitializationException e) {
+            System.out.println(
+                    "(a) Caught: " + e.getClass().getSimpleName()
+            );
+
+            System.out.println(
+                    "    " + e.getMessage()
+            );
+        }
+
+        Department aiFull = departmentService.getWithStudents("AI");
+
+        System.out.println("(b) " + aiFull);
+
+        aiFull.getStudents().forEach(
+                s -> System.out.println("     " + s)
+        );
+    }
+
+    private void printList(String title, List<?> list) {
+        System.out.println(title);
+
+        for (Object item : list) {
+            System.out.println("  " + item);
+        }
     }
 }
