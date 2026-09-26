@@ -141,4 +141,13 @@ public class ExerciseRunner implements CommandLineRunner {
             System.out.println("  " + item);
         }
     }
+    // TODO 17
+    private void todo17() {
+        System.out.println("===== TODO 17: Native query - TOP N =====");
+
+        printList(
+                "Top 2 GPA of SE",
+                studentService.findTopNInDepartment("SE", 2)
+        );
+    }
 }
