@@ -3,6 +3,7 @@ package com.hsf302.ch4.service;
 import com.hsf302.ch4.dto.StudentSummary;
 import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
+import com.hsf302.ch4.repository.DepartmentRepository;
 import com.hsf302.ch4.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final DepartmentRepository departmentRepository;
 
     // TODO 6
     @Override
@@ -85,11 +87,17 @@ public class StudentServiceImpl implements StudentService {
     // TODO 10
     @Override
     public List<Student> findByGpaRange(double min, double max) {
+
         if (min > max) {
-            throw new IllegalArgumentException("min GPA phải <= max GPA");
+            throw new IllegalArgumentException(
+                    "min GPA phải <= max GPA"
+            );
         }
 
-        return studentRepository.findByGpaBetweenOrderByGpaDesc(min, max);
+        return studentRepository.findByGpaBetweenOrderByGpaDesc(
+                min,
+                max
+        );
     }
 
     @Override
@@ -105,7 +113,8 @@ public class StudentServiceImpl implements StudentService {
     // TODO 11
     @Override
     public List<Student> findByDepartment(String deptCode) {
-        return studentRepository.findByDepartment_CodeOrderByFullNameAsc(deptCode);
+        return studentRepository
+                .findByDepartment_CodeOrderByFullNameAsc(deptCode);
     }
 
     @Override
@@ -133,16 +142,21 @@ public class StudentServiceImpl implements StudentService {
     // TODO 13
     @Override
     public List<Student> searchByKeyword(String keyword) {
+
         if (keyword == null || keyword.isBlank()) {
             return List.of();
         }
 
-        return studentRepository.searchByKeyword(keyword.trim());
+        return studentRepository.searchByKeyword(
+                keyword.trim()
+        );
     }
 
     // TODO 14
     @Override
-    public List<Student> findByDepartmentCodes(List<String> codes) {
+    public List<Student> findByDepartmentCodes(
+            List<String> codes
+    ) {
         return studentRepository.findByDepartmentCodes(codes);
     }
 
@@ -158,8 +172,11 @@ public class StudentServiceImpl implements StudentService {
             String deptCode,
             int n
     ) {
+
         if (n <= 0) {
-            throw new IllegalArgumentException("n phải > 0");
+            throw new IllegalArgumentException(
+                    "n phải > 0"
+            );
         }
 
         return studentRepository.findTopNByDepartmentNative(
@@ -173,6 +190,7 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentSummary> getActiveSummaries() {
         return studentRepository.findActiveSummaries();
     }
+
     // TODO 19
     @Override
     public Page<Student> findActiveByDepartment(
@@ -184,12 +202,19 @@ public class StudentServiceImpl implements StudentService {
                 pageable
         );
     }
+
     // TODO 20
     @Override
     @Transactional
-    public int updateGpa(String studentCode, double gpa) {
+    public int updateGpa(
+            String studentCode,
+            double gpa
+    ) {
+
         if (gpa < 0 || gpa > 4) {
-            throw new IllegalArgumentException("GPA phải từ 0 đến 4");
+            throw new IllegalArgumentException(
+                    "GPA phải từ 0 đến 4"
+            );
         }
 
         return studentRepository.updateGpaByStudentCode(
@@ -197,10 +222,50 @@ public class StudentServiceImpl implements StudentService {
                 gpa
         );
     }
+
     // TODO 21
     @Override
     @Transactional
-    public int deactivateStudentsBelowGpa(double minGpa) {
-        return studentRepository.deactivateStudentsBelowGpa(minGpa);
+    public int deactivateStudentsBelowGpa(
+            double minGpa
+    ) {
+        return studentRepository.deactivateStudentsBelowGpa(
+                minGpa
+        );
+    }
+
+    // TODO 22
+    @Override
+    @Transactional
+    public int moveStudentsToDepartment(
+            String sourceCode,
+            String targetCode
+    ) {
+        return studentRepository.moveStudentsToDepartment(
+                sourceCode,
+                targetCode
+        );
+    }
+
+    // TODO 22
+    @Override
+    @Transactional
+    public void moveAndDeleteDepartment(
+            String sourceCode,
+            String targetCode
+    ) {
+
+        // 1. Chuyển toàn bộ sinh viên
+        // từ source department sang target department
+        studentRepository.moveStudentsToDepartment(
+                sourceCode,
+                targetCode
+        );
+
+        // 2. Xóa department cũ
+        departmentRepository.findByCode(sourceCode)
+                .ifPresent(
+                        departmentRepository::delete
+                );
     }
 }

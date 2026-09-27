@@ -121,4 +121,12 @@ public interface StudentRepository
     int deactivateStudentsBelowGpa(
             @Param("minGpa") double minGpa
     );
+    // TODO 22
+    @Modifying
+    @Query("UPDATE Student s SET s.department.code = :targetCode " +
+            "WHERE s.department.code = :sourceCode")
+    int moveStudentsToDepartment(
+            @Param("sourceCode") String sourceCode,
+            @Param("targetCode") String targetCode
+    );
     }

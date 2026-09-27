@@ -71,4 +71,14 @@ public interface StudentService {
     int updateGpa(String studentCode, double gpa);
     // TODO 21
     int deactivateStudentsBelowGpa(double minGpa);
+    // TODO 22
+    int moveStudentsToDepartment(
+            String sourceCode,
+            String targetCode
+    );
+    // TODO 22
+    void moveAndDeleteDepartment(
+            String sourceCode,
+            String targetCode
+    );
 }
