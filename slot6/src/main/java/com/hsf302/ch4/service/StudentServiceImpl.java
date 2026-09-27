@@ -268,4 +268,10 @@ public class StudentServiceImpl implements StudentService {
                         departmentRepository::delete
                 );
     }
+    // TODO 23
+    @Override
+    @Transactional
+    public int deleteInactiveStudents() {
+        return studentRepository.deleteInactiveStudents();
+    }
 }

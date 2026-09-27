@@ -129,4 +129,8 @@ public interface StudentRepository
             @Param("sourceCode") String sourceCode,
             @Param("targetCode") String targetCode
     );
+    // TODO 23
+    @Modifying
+    @Query("DELETE FROM Student s WHERE s.active = false")
+    int deleteInactiveStudents();
     }

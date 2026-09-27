@@ -266,4 +266,27 @@ public class ExerciseRunner implements CommandLineRunner {
                         + studentService.countActive()
         );
     }
+    // TODO 23
+    private void todo23() {
+        System.out.println(
+                "===== TODO 23: Delete inactive students ====="
+        );
+
+        int deleted =
+                studentService.deleteInactiveStudents();
+
+        System.out.println(
+                "Deleted rows = " + deleted
+        );
+
+        System.out.println(
+                "Remaining students = "
+                        + studentService.count()
+        );
+
+        System.out.println(
+                "Active students = "
+                        + studentService.countActive()
+        );
+    }
 }

@@ -81,4 +81,6 @@ public interface StudentService {
             String sourceCode,
             String targetCode
     );
+    // TODO 23
+    int deleteInactiveStudents();
 }
