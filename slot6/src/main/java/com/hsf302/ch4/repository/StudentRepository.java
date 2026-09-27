@@ -5,6 +5,7 @@ import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Page;
@@ -105,4 +106,12 @@ public interface StudentRepository
             @Param("code") String code,
             Pageable pageable
     );
-}
+
+        // TODO 20
+        @Modifying
+        @Query("UPDATE Student s SET s.gpa = :gpa WHERE s.studentCode = :code")
+        int updateGpaByStudentCode(
+                @Param("code") String code,
+                @Param("gpa") double gpa
+        );
+    }

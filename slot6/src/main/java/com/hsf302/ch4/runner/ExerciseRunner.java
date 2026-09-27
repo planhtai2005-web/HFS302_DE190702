@@ -230,4 +230,22 @@ public class ExerciseRunner implements CommandLineRunner {
             System.out.println("  " + item);
         }
     }
+    // TODO 20
+    private void todo20() {
+        System.out.println(
+                "===== TODO 20: Update GPA ====="
+        );
+
+        int updated =
+                studentService.updateGpa("SE001", 3.4);
+
+        System.out.println(
+                "Updated rows = " + updated
+        );
+
+        studentService.findByStudentCode("SE001")
+                .ifPresent(s ->
+                        System.out.println("   " + s)
+                );
+    }
 }

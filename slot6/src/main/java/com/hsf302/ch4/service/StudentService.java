@@ -67,4 +67,6 @@ public interface StudentService {
     List<StudentSummary> getActiveSummaries();
     // TODO 19
     Page<Student> findActiveByDepartment(String deptCode, Pageable pageable);
+    // TODO 20
+    int updateGpa(String studentCode, double gpa);
 }

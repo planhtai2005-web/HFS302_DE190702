@@ -184,4 +184,17 @@ public class StudentServiceImpl implements StudentService {
                 pageable
         );
     }
+    // TODO 20
+    @Override
+    @Transactional
+    public int updateGpa(String studentCode, double gpa) {
+        if (gpa < 0 || gpa > 4) {
+            throw new IllegalArgumentException("GPA phải từ 0 đến 4");
+        }
+
+        return studentRepository.updateGpaByStudentCode(
+                studentCode,
+                gpa
+        );
+    }
 }
