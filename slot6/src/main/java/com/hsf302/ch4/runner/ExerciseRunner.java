@@ -248,4 +248,22 @@ public class ExerciseRunner implements CommandLineRunner {
                         System.out.println("   " + s)
                 );
     }
+    // TODO 21
+    private void todo21() {
+        System.out.println(
+                "===== TODO 21: Deactivate students below GPA ====="
+        );
+
+        int updated =
+                studentService.deactivateStudentsBelowGpa(2.5);
+
+        System.out.println(
+                "Updated rows = " + updated
+        );
+
+        System.out.println(
+                "Active students = "
+                        + studentService.countActive()
+        );
+    }
 }

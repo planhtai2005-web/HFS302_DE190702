@@ -69,4 +69,6 @@ public interface StudentService {
     Page<Student> findActiveByDepartment(String deptCode, Pageable pageable);
     // TODO 20
     int updateGpa(String studentCode, double gpa);
+    // TODO 21
+    int deactivateStudentsBelowGpa(double minGpa);
 }

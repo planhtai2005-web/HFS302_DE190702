@@ -197,4 +197,10 @@ public class StudentServiceImpl implements StudentService {
                 gpa
         );
     }
+    // TODO 21
+    @Override
+    @Transactional
+    public int deactivateStudentsBelowGpa(double minGpa) {
+        return studentRepository.deactivateStudentsBelowGpa(minGpa);
+    }
 }

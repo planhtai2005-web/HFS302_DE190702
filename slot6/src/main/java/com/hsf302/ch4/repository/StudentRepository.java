@@ -114,4 +114,11 @@ public interface StudentRepository
                 @Param("code") String code,
                 @Param("gpa") double gpa
         );
+    // TODO 21
+    @Modifying
+    @Query("UPDATE Student s SET s.active = false " +
+            "WHERE s.active = true AND s.gpa < :minGpa")
+    int deactivateStudentsBelowGpa(
+            @Param("minGpa") double minGpa
+    );
     }
