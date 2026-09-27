@@ -83,4 +83,11 @@ public interface StudentService {
     );
     // TODO 23
     int deleteInactiveStudents();
+    // TODO 24 BONUS
+    List<Student> searchBySpecification(
+            String departmentCode,
+            Double minGpa,
+            Boolean active,
+            String keyword
+    );
 }

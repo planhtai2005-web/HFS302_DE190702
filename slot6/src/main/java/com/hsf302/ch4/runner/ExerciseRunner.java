@@ -289,4 +289,23 @@ public class ExerciseRunner implements CommandLineRunner {
                         + studentService.countActive()
         );
     }
+    // TODO 24 BONUS
+    private void todo24() {
+        System.out.println(
+                "===== TODO 24 BONUS: JPA Specification ====="
+        );
+
+        List<Student> students =
+                studentService.searchBySpecification(
+                        "SE",
+                        3.0,
+                        true,
+                        null
+                );
+
+        printList(
+                "Active SE students with GPA >= 3.0",
+                students
+        );
+    }
 }

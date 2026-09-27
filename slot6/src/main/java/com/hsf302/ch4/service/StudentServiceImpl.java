@@ -10,7 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.hsf302.ch4.specification.StudentSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -273,5 +274,29 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public int deleteInactiveStudents() {
         return studentRepository.deleteInactiveStudents();
+    }
+    // TODO 24 BONUS
+    @Override
+    public List<Student> searchBySpecification(
+            String departmentCode,
+            Double minGpa,
+            Boolean active,
+            String keyword
+    ) {
+        Specification<Student> spec =
+                Specification.where(
+                                StudentSpecification.hasDepartment(departmentCode)
+                        )
+                        .and(
+                                StudentSpecification.gpaGreaterThanOrEqual(minGpa)
+                        )
+                        .and(
+                                StudentSpecification.isActive(active)
+                        )
+                        .and(
+                                StudentSpecification.nameContains(keyword)
+                        );
+
+        return studentRepository.findAll(spec);
     }
 }
