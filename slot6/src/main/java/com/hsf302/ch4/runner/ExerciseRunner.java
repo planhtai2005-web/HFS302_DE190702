@@ -1,4 +1,3 @@
-
 package com.hsf302.ch4.runner;
 
 import com.hsf302.ch4.dto.StudentSummary;
@@ -35,6 +34,11 @@ public class ExerciseRunner implements CommandLineRunner {
         todo17();
         todo18();
         todo19();
+        todo20();
+        todo21();
+        todo23();
+        todo24();
+        todo25();
     }
 
     // TODO 11
@@ -78,7 +82,9 @@ public class ExerciseRunner implements CommandLineRunner {
 
     // TODO 13
     private void todo13() {
-        System.out.println("===== TODO 13: JPQL LIKE =====");
+        System.out.println(
+                "===== TODO 13: JPQL LIKE ====="
+        );
 
         printList(
                 "keyword 'hoa'",
@@ -93,7 +99,9 @@ public class ExerciseRunner implements CommandLineRunner {
 
     // TODO 14
     private void todo14() {
-        System.out.println("===== TODO 14: JPQL IN =====");
+        System.out.println(
+                "===== TODO 14: JPQL IN ====="
+        );
 
         printList(
                 "Departments SE + AI",
@@ -137,7 +145,9 @@ public class ExerciseRunner implements CommandLineRunner {
                             + e.getClass().getSimpleName()
             );
 
-            System.out.println("    " + e.getMessage());
+            System.out.println(
+                    "    " + e.getMessage()
+            );
         }
 
         Department aiFull =
@@ -223,13 +233,6 @@ public class ExerciseRunner implements CommandLineRunner {
         );
     }
 
-    private void printList(String title, List<?> list) {
-        System.out.println(title);
-
-        for (Object item : list) {
-            System.out.println("  " + item);
-        }
-    }
     // TODO 20
     private void todo20() {
         System.out.println(
@@ -248,6 +251,7 @@ public class ExerciseRunner implements CommandLineRunner {
                         System.out.println("   " + s)
                 );
     }
+
     // TODO 21
     private void todo21() {
         System.out.println(
@@ -266,6 +270,7 @@ public class ExerciseRunner implements CommandLineRunner {
                         + studentService.countActive()
         );
     }
+
     // TODO 23
     private void todo23() {
         System.out.println(
@@ -289,7 +294,8 @@ public class ExerciseRunner implements CommandLineRunner {
                         + studentService.countActive()
         );
     }
-    // TODO 24 BONUS
+
+    // TODO 24
     private void todo24() {
         System.out.println(
                 "===== TODO 24 BONUS: JPA Specification ====="
@@ -307,5 +313,25 @@ public class ExerciseRunner implements CommandLineRunner {
                 "Active SE students with GPA >= 3.0",
                 students
         );
+    }
+
+    // TODO 25
+    private void todo25() {
+        System.out.println(
+                "===== TODO 25: Departments with more than 3 students ====="
+        );
+
+        List<Department> departments =
+                departmentService.findDepartmentsWithMoreThan3Students();
+
+        departments.forEach(System.out::println);
+    }
+
+    private void printList(String title, List<?> list) {
+        System.out.println(title);
+
+        for (Object item : list) {
+            System.out.println("  " + item);
+        }
     }
 }

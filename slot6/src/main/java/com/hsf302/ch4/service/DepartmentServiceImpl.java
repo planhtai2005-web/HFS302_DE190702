@@ -47,4 +47,16 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Department not found: " + code));
     }
+    // TODO 22
+    @Override
+    @Transactional
+    public void deleteByCode(String code) {
+        departmentRepository.findByCode(code)
+                .ifPresent(departmentRepository::delete);
+    }
+    // TODO 25
+    @Override
+    public List<Department> findDepartmentsWithMoreThan3Students() {
+        return departmentRepository.findDepartmentsWithMoreThan3Students();
+    }
 }

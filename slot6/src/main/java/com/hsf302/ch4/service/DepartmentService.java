@@ -19,4 +19,8 @@ public interface DepartmentService {
 
     // TODO 16b
     Department getWithStudents(String code);
+    // TODO 22
+    void deleteByCode(String code);
+   // TODO 25
+    List<Department> findDepartmentsWithMoreThan3Students();
 }
