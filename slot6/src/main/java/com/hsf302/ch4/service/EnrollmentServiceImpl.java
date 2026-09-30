@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.hsf302.ch4.dto.StudentCreditDTO;
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -59,6 +62,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public List<Student> findActiveStudentsInCourse(String courseCode) {
         return studentRepository.findByCourses_CodeAndActiveTrueOrderByFullNameAsc(courseCode);
     }
+
     // ===== TODO 11 =====
     @Override
     public List<Student> findStudentsWithoutCourses() {
@@ -69,6 +73,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public boolean isEnrolled(String studentCode, String courseCode) {
         return studentRepository.existsByStudentCodeAndCourses_Code(studentCode, courseCode);
     }
+
     // ===== TODO 12 =====
     @Override
     public List<Student> findGoodStudentsInCourse(String courseCode, double minGpa) {
@@ -96,6 +101,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
         return studentRepository.findStudentsWithMoreThanNCourses(n);
     }
+
     // ===== TODO 16 =====
     @Override
     public Student getStudentWithCourses(String studentCode) {
@@ -103,9 +109,21 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Student not found: " + studentCode));
     }
+
     // TODO 18
     @Override
     public List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode) {
         return studentRepository.findEnrollmentsOfDepartment(deptCode);
+    }
+
+    // TODO 19
+    @Override
+    public Page<Student> findStudentsInCoursePage(String courseCode, int pageIndex, int size) {
+        if (pageIndex < 0 || size <= 0) {
+            throw new IllegalArgumentException("pageIndex must be >= 0 and size must be > 0");
+        }
+
+        Pageable pageable = PageRequest.of(pageIndex, size, Sort.by("fullName"));
+        return studentRepository.findPageByCourseCode(courseCode, pageable);
     }
 }

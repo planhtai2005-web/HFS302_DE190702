@@ -175,4 +175,9 @@ public interface StudentRepository
             "WHERE d.code = :deptCode " +
             "ORDER BY s.studentCode, c.code")
     List<EnrollmentView> findEnrollmentsOfDepartment(@Param("deptCode") String deptCode);
+    // TODO 19
+
+    @Query(value = "SELECT s FROM Student s JOIN s.courses c WHERE c.code = :code",
+            countQuery = "SELECT COUNT(s) FROM Student s JOIN s.courses c WHERE c.code = :code")
+    Page<Student> findPageByCourseCode(@Param("code") String courseCode, Pageable pageable);
     }

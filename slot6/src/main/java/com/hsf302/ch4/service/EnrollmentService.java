@@ -5,6 +5,7 @@ import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.dto.StudentCreditDTO;
 import java.util.List;
 import com.hsf302.ch4.dto.EnrollmentView;
+import org.springframework.data.domain.Page;
 public interface EnrollmentService {
 
     List<Course> getCoursesOfStudent(String studentCode);
@@ -32,4 +33,6 @@ public interface EnrollmentService {
     Student getStudentWithCourses(String studentCode);
     // TODO 18
     List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode);
+    // TODO 19
+    Page<Student> findStudentsInCoursePage(String courseCode, int pageIndex, int size);
 }
