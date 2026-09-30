@@ -25,8 +25,8 @@ public class Exercise2Runner implements CommandLineRunner {
         System.out.println(">>> Exercise 2 runner started");
 
         todo6();
+        todo7();
     }
-
     private void todo6() {
         title("TODO 6: count, findAll(Sort), findById");
 
@@ -60,5 +60,16 @@ public class Exercise2Runner implements CommandLineRunner {
         }
 
         System.out.println("   -> " + courses.size() + " record(s)");
+    }
+    private void todo7() {
+        title("TODO 7: bidirectional navigation");
+
+        System.out.println("-- Courses of student SE001:");
+        enrollmentService.getCoursesOfStudent("SE001")
+                .forEach(course -> System.out.println("   " + course));
+
+        System.out.println("-- Students of course HSF302:");
+        enrollmentService.getStudentsOfCourse("HSF302")
+                .forEach(student -> System.out.println("   " + student));
     }
 }
