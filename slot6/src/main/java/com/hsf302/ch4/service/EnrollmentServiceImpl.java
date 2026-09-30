@@ -1,5 +1,5 @@
 package com.hsf302.ch4.service;
-
+import com.hsf302.ch4.dto.EnrollmentView;
 import com.hsf302.ch4.pojo.Course;
 import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.repository.CourseRepository;
@@ -102,5 +102,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return studentRepository.findByStudentCodeWithCourses(studentCode)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Student not found: " + studentCode));
+    }
+    // TODO 18
+    @Override
+    public List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode) {
+        return studentRepository.findEnrollmentsOfDepartment(deptCode);
     }
 }

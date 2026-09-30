@@ -4,7 +4,7 @@ import com.hsf302.ch4.pojo.Course;
 import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.dto.StudentCreditDTO;
 import java.util.List;
-
+import com.hsf302.ch4.dto.EnrollmentView;
 public interface EnrollmentService {
 
     List<Course> getCoursesOfStudent(String studentCode);
@@ -30,4 +30,6 @@ public interface EnrollmentService {
     List<Student> findStudentsWithMoreThan(int n);
     // ===== TODO 16 =====
     Student getStudentWithCourses(String studentCode);
+    // TODO 18
+    List<EnrollmentView> getEnrollmentsOfDepartment(String deptCode);
 }
