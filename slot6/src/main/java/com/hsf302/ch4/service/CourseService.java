@@ -31,4 +31,6 @@ public interface CourseService {
     // ===== TODO 15 =====
 
     List<Course> findFullCourses();
+    // ===== TODO 16 =====
+    Course getWithStudents(String code);
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 import com.hsf302.ch4.dto.CourseStatDTO;
-
+import org.springframework.data.jpa.repository.EntityGraph;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     // ===== TODO 7 =====
@@ -35,4 +35,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("SELECT c FROM Course c WHERE SIZE(c.students) >= c.capacity ORDER BY c.code")
     List<Course> findFullCourses();
+    // ===== TODO 16 =====
+    @EntityGraph(attributePaths = "students")
+    Optional<Course> findWithStudentsByCode(String code);
 }
