@@ -9,7 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
+
 @Component
 @Order(3)
 @Profile("ex2")
@@ -30,7 +32,9 @@ public class Exercise2Runner implements CommandLineRunner {
         todo9();
         todo10();
         todo11();
+        todo12();
     }
+
     private void todo6() {
         title("TODO 6: count, findAll(Sort), findById");
 
@@ -56,15 +60,18 @@ public class Exercise2Runner implements CommandLineRunner {
         System.out.println("=== " + text + " ===");
     }
 
-    private void printList(String label, java.util.List<Course> courses) {
+    // ===== Helper =====
+    // Dùng được cho cả List<Course> và List<Student>
+    private <T> void printList(String label, List<T> list) {
         System.out.println("-- " + label + ":");
 
-        for (Course course : courses) {
-            System.out.println("   " + course);
+        for (T item : list) {
+            System.out.println("   " + item);
         }
 
-        System.out.println("   -> " + courses.size() + " record(s)");
+        System.out.println("   -> " + list.size() + " record(s)");
     }
+
     private void todo7() {
         title("TODO 7: bidirectional navigation");
 
@@ -76,6 +83,7 @@ public class Exercise2Runner implements CommandLineRunner {
         enrollmentService.getStudentsOfCourse("HSF302")
                 .forEach(student -> System.out.println("   " + student));
     }
+
     // ===== TODO 8 =====
     private void todo8() {
         title("TODO 8: findByCode, findBySemester, countBySemester");
@@ -99,6 +107,7 @@ public class Exercise2Runner implements CommandLineRunner {
                         + courseService.countBySemester("FA26")
         );
     }
+
     // ===== TODO 9 =====
     private void todo9() {
         title("TODO 9: derived query through collection courses");
@@ -118,6 +127,7 @@ public class Exercise2Runner implements CommandLineRunner {
                 enrollmentService.findActiveStudentsInCourse("PRJ301")
         );
     }
+
     // ===== TODO 10 =====
     private void todo10() {
         title("TODO 10: derived query from inverse side, Distinct");
@@ -137,6 +147,7 @@ public class Exercise2Runner implements CommandLineRunner {
                 courseService.findCoursesOfDepartment("AI", true)
         );
     }
+
     // ===== TODO 11 =====
     private void todo11() {
         title("TODO 11: IsEmpty, existsBy...And...");
@@ -159,6 +170,16 @@ public class Exercise2Runner implements CommandLineRunner {
         System.out.println(
                 "    SE002 enrolled AIL303? "
                         + enrollmentService.isEnrolled("SE002", "AIL303")
+        );
+    }
+
+    // ===== TODO 12 =====
+    private void todo12() {
+        title("TODO 12: JPQL JOIN s.courses");
+
+        printList(
+                "HSF302 & GPA >= 3.5",
+                enrollmentService.findGoodStudentsInCourse("HSF302", 3.5)
         );
     }
 }

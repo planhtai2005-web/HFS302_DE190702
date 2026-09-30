@@ -1,5 +1,6 @@
 package com.hsf302.ch4.repository;
-
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 import com.hsf302.ch4.dto.StudentSummary;
 import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
@@ -144,4 +145,11 @@ public interface StudentRepository
     List<Student> findByCoursesIsEmptyOrderByFullNameAsc();
 
     boolean existsByStudentCodeAndCourses_Code(String studentCode, String courseCode);
+    // ===== TODO 12 =====
+    @Query("SELECT s FROM Student s JOIN s.courses c " +
+            "WHERE c.code = :code AND s.gpa >= :minGpa ORDER BY s.gpa DESC")
+    List<Student> findGoodStudentsInCourse(
+            @Param("code") String courseCode,
+            @Param("minGpa") double minGpa
+    );
     }
