@@ -44,6 +44,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo19();
         todo20();
         todo21();
+        todo22();
     }
 
     private void todo6() {
@@ -344,5 +345,23 @@ public class Exercise2Runner implements CommandLineRunner {
 
         System.out.println("Total courses: "
                 + courseService.count());
+    }
+    // ===== TODO 22 =====
+    private void todo22() {
+        title("TODO 22: switch course in one transaction");
+
+        attempt("switch SE001 SWP391 -> MKT101",
+                () -> enrollmentService.switchCourse(
+                        "SE001", "SWP391", "MKT101"));
+
+        printList("Courses of SE001",
+                enrollmentService.getCoursesOfStudent("SE001"));
+
+        attempt("switch SE001 PRJ301 -> AIL303",
+                () -> enrollmentService.switchCourse(
+                        "SE001", "PRJ301", "AIL303"));
+
+        printList("Courses of SE001 (after rollback)",
+                enrollmentService.getCoursesOfStudent("SE001"));
     }
 }
