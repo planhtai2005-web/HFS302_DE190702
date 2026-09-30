@@ -37,4 +37,6 @@ public interface EnrollmentService {
     Page<Student> findStudentsInCoursePage(String courseCode, int pageIndex, int size);
     // ===== TODO 20 =====
     void enroll(String studentCode, String courseCode);
+    // ===== TODO 21 =====
+    void unenroll(String studentCode, String courseCode);
 }

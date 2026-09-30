@@ -43,6 +43,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo18();
         todo19();
         todo20();
+        todo21();
     }
 
     private void todo6() {
@@ -318,5 +319,30 @@ public class Exercise2Runner implements CommandLineRunner {
         } catch (RuntimeException e) {
             System.out.println("[FAIL] " + label + " -> " + e.getMessage());
         }
+    }
+    // ===== TODO 21 =====
+    private void todo21() {
+        title("TODO 21: unenroll");
+
+        attempt("unenroll AI002 <- AIL303",
+                () -> enrollmentService.unenroll("AI002", "AIL303"));
+
+        attempt("unenroll IA003 <- PRJ301",
+                () -> enrollmentService.unenroll("IA003", "PRJ301"));
+
+        attempt("enroll   SE004 -> AIL303",
+                () -> enrollmentService.enroll("SE004", "AIL303"));
+
+        printList("Students of AIL303",
+                enrollmentService.getStudentsOfCourse("AIL303"));
+
+        printList("Courses of AI002",
+                enrollmentService.getCoursesOfStudent("AI002"));
+
+        System.out.println("AI002 still exists? "
+                + studentService.findByStudentCode("AI002").isPresent());
+
+        System.out.println("Total courses: "
+                + courseService.count());
     }
 }
