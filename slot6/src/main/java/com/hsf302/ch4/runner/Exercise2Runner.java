@@ -42,6 +42,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo17();
         todo18();
         todo19();
+        todo20();
     }
 
     private void todo6() {
@@ -284,5 +285,38 @@ public class Exercise2Runner implements CommandLineRunner {
 
         System.out.println("totalElements = " + page.getTotalElements()
                 + ", totalPages = " + page.getTotalPages());
+    }
+    // ===== TODO 20 =====
+    private void todo20() {
+        title("TODO 20: enroll with business rules");
+
+        attempt("enroll IA003 -> MKT101",
+                () -> enrollmentService.enroll("IA003", "MKT101"));
+
+        attempt("enroll SE001 -> PRJ301",
+                () -> enrollmentService.enroll("SE001", "PRJ301"));
+
+        attempt("enroll SE004 -> AIL303",
+                () -> enrollmentService.enroll("SE004", "AIL303"));
+
+        attempt("enroll SE003 -> HSF302",
+                () -> enrollmentService.enroll("SE003", "HSF302"));
+
+        attempt("enroll XX999 -> HSF302",
+                () -> enrollmentService.enroll("XX999", "HSF302"));
+
+        printList("Courses of IA003",
+                enrollmentService.getCoursesOfStudent("IA003"));
+
+        System.out.println("Students of MKT101: "
+                + enrollmentService.countStudentsInCourse("MKT101"));
+    }
+    private void attempt(String label, Runnable action) {
+        try {
+            action.run();
+            System.out.println("[OK]   " + label);
+        } catch (RuntimeException e) {
+            System.out.println("[FAIL] " + label + " -> " + e.getMessage());
+        }
     }
 }

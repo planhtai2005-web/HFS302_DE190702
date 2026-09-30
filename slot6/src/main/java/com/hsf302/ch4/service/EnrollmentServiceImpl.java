@@ -126,4 +126,52 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         Pageable pageable = PageRequest.of(pageIndex, size, Sort.by("fullName"));
         return studentRepository.findPageByCourseCode(courseCode, pageable);
     }
+    // ===== TODO 20 =====
+    @Override
+    @Transactional
+    public void enroll(String studentCode, String courseCode) {
+        Student s = getStudent(studentCode);
+        Course c = getCourse(courseCode);
+        checkAndEnroll(s, c);
+    }
+
+    /** Kiểm tra quy tắc nghiệp vụ rồi mới đăng ký. Dùng lại ở TODO 22. */
+    private void checkAndEnroll(Student s, Course c) {
+        if (!s.isActive()) {
+            throw new IllegalStateException(
+                    "Student " + s.getStudentCode() + " is inactive");
+        }
+
+        if (s.getCourses().contains(c)) {
+            throw new IllegalStateException(
+                    "Student " + s.getStudentCode()
+                            + " already enrolled in " + c.getCode());
+        }
+
+        int enrolled = c.getStudents().size();
+
+        if (enrolled >= c.getCapacity()) {
+            throw new IllegalStateException(
+                    "Course " + c.getCode()
+                            + " is full (" + enrolled
+                            + "/" + c.getCapacity() + ")");
+        }
+
+        s.enroll(c);
+    }
+
+    // ===== Helper for TODO 20 =====
+    private Student getStudent(String studentCode) {
+        return studentRepository.findByStudentCode(studentCode)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Student not found: " + studentCode));
+    }
+
+    private Course getCourse(String courseCode) {
+        return courseRepository.findByCode(courseCode)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Course not found: " + courseCode));
+    }
 }
