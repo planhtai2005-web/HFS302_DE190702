@@ -133,4 +133,11 @@ public interface StudentRepository
     @Modifying
     @Query("DELETE FROM Student s WHERE s.active = false")
     int deleteInactiveStudents();
+
+    // ===== TODO 9 =====
+    List<Student> findByCourses_CodeOrderByFullNameAsc(String courseCode);
+
+    long countByCourses_Code(String courseCode);
+
+    List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseCode);
     }

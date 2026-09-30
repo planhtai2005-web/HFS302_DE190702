@@ -27,6 +27,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo6();
         todo7();
         todo8();
+        todo9();
     }
     private void todo6() {
         title("TODO 6: count, findAll(Sort), findById");
@@ -94,6 +95,25 @@ public class Exercise2Runner implements CommandLineRunner {
         System.out.println(
                 "(c) Courses in FA26: "
                         + courseService.countBySemester("FA26")
+        );
+    }
+    // ===== TODO 9 =====
+    private void todo9() {
+        title("TODO 9: derived query through collection courses");
+
+        printList(
+                "(a) Students of PRJ301",
+                enrollmentService.findStudentsInCourse("PRJ301")
+        );
+
+        System.out.println(
+                "(b) Students of HSF302: "
+                        + enrollmentService.countStudentsInCourse("HSF302")
+        );
+
+        printList(
+                "(c) Active students of PRJ301",
+                enrollmentService.findActiveStudentsInCourse("PRJ301")
         );
     }
 }
