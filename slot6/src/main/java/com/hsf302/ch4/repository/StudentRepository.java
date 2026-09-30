@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import com.hsf302.ch4.dto.StudentCreditDTO;
+
 public interface StudentRepository
         extends JpaRepository<Student, Long>, JpaSpecificationExecutor<Student> {
 
@@ -152,4 +154,12 @@ public interface StudentRepository
             @Param("code") String courseCode,
             @Param("minGpa") double minGpa
     );
+    // ===== TODO 14 =====
+
+    @Query("SELECT new com.hsf302.ch4.dto.StudentCreditDTO(s.studentCode, s.fullName, COUNT(c), SUM(c.credits)) " +
+            "FROM Student s JOIN s.courses c " +
+            "GROUP BY s.studentCode, s.fullName " +
+            "HAVING SUM(c.credits) >= :minCredits " +
+            "ORDER BY SUM(c.credits) DESC, s.fullName")
+    List<StudentCreditDTO> getCreditSummary(@Param("minCredits") long minCredits);
     }

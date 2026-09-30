@@ -34,6 +34,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo11();
         todo12();
         todo13();
+        todo14();
     }
 
     private void todo6() {
@@ -201,5 +202,17 @@ public class Exercise2Runner implements CommandLineRunner {
                         ? "null"
                         : String.format("%.3f", d.avgGpa())
         ));
+    }
+    // ===== TODO 14 =====
+
+    private void todo14() {
+        title("TODO 14: total credits per student (GROUP BY + HAVING)");
+
+        enrollmentService.getCreditSummary(7).forEach(d -> System.out.printf(
+                "   %s | %-15s | %d course(s) | %d credits%n",
+                d.studentCode(),
+                d.fullName(),
+                d.courseCount(),
+                d.totalCredits()));
     }
 }
