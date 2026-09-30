@@ -90,4 +90,9 @@ public class CourseServiceImpl implements CourseService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Course not found: " + code));
     }
+    // TODO17
+    @Override
+    public List<Course> findTopEnrolledCourses() {
+        return courseRepository.findTopEnrolledCourses();
+    }
 }

@@ -38,4 +38,20 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     // ===== TODO 16 =====
     @EntityGraph(attributePaths = "students")
     Optional<Course> findWithStudentsByCode(String code);
+    // ===== TODO 17 =====
+    @Query(value = """
+        SELECT TOP 3
+            c.id,
+            c.code,
+            c.name,
+            c.credits,
+            c.semester,
+            c.capacity
+        FROM courses c
+        JOIN student_courses sc ON c.id = sc.course_id
+        GROUP BY c.id, c.code, c.name, c.credits, c.semester, c.capacity
+        ORDER BY COUNT(sc.student_id) DESC, c.code
+        """, nativeQuery = true)
+    List<Course> findTopEnrolledCourses();
+
 }

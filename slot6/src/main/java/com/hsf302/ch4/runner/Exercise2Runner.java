@@ -38,6 +38,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo14();
         todo15();
         todo16();
+        todo17();
     }
 
     private void todo6() {
@@ -256,5 +257,9 @@ public class Exercise2Runner implements CommandLineRunner {
         c.getStudents().stream()
                 .sorted(Comparator.comparing(Student::getFullName))
                 .forEach(st -> System.out.println("   " + st));
+    }
+    private void todo17() {
+        title("TODO 17: top enrolled courses with native SQL");
+        printList("(a) Top enrolled courses", courseService.findTopEnrolledCourses());
     }
 }
