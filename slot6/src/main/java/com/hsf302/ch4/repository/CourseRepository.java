@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-
+import com.hsf302.ch4.dto.CourseStatDTO;
+import org.springframework.data.jpa.repository.Query;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     // ===== TODO 7 =====
@@ -24,4 +25,10 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findDistinctByStudents_Department_CodeOrderByCodeAsc(String deptCode);
     // ===== TODO 11 =====
     List<Course> findByStudentsIsEmpty();
+    // ===== TODO 13 =====
+    @Query("SELECT new com.hsf302.ch4.dto.CourseStatDTO(" +
+            "c.code, c.name, c.capacity, COUNT(s), AVG(s.gpa)) " +
+            "FROM Course c LEFT JOIN c.students s " +
+            "GROUP BY c.code, c.name, c.capacity ORDER BY c.code")
+    List<CourseStatDTO> getCourseStats();
 }

@@ -33,6 +33,7 @@ public class Exercise2Runner implements CommandLineRunner {
         todo10();
         todo11();
         todo12();
+        todo13();
     }
 
     private void todo6() {
@@ -181,5 +182,24 @@ public class Exercise2Runner implements CommandLineRunner {
                 "HSF302 & GPA >= 3.5",
                 enrollmentService.findGoodStudentsInCourse("HSF302", 3.5)
         );
+    }
+    // ===== TODO 13 =====
+    private void todo13() {
+        title("TODO 13: course statistics (LEFT JOIN + GROUP BY + DTO)");
+        printCourseStats();
+    }
+
+    private void printCourseStats() {
+        courseService.getStatistics().forEach(d -> System.out.printf(
+                "   %-6s | %-40s | %d/%d (free %d) | avg GPA %s%n",
+                d.code(),
+                d.name(),
+                d.enrolled(),
+                d.capacity(),
+                d.remaining(),
+                d.avgGpa() == null
+                        ? "null"
+                        : String.format("%.3f", d.avgGpa())
+        ));
     }
 }

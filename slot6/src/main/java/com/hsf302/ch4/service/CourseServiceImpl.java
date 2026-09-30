@@ -1,5 +1,6 @@
 package com.hsf302.ch4.service;
 
+import com.hsf302.ch4.dto.CourseStatDTO;
 import com.hsf302.ch4.pojo.Course;
 import com.hsf302.ch4.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class CourseServiceImpl implements CourseService {
     public Optional<Course> findById(Long id) {
         return courseRepository.findById(id);
     }
+
     // ===== TODO 8 =====
 
     @Override
@@ -47,6 +49,7 @@ public class CourseServiceImpl implements CourseService {
     public long countBySemester(String semester) {
         return courseRepository.countBySemester(semester);
     }
+
     // ===== TODO 10 =====
 
     @Override
@@ -60,9 +63,18 @@ public class CourseServiceImpl implements CourseService {
                 ? courseRepository.findDistinctByStudents_Department_CodeOrderByCodeAsc(deptCode)
                 : courseRepository.findByStudents_Department_CodeOrderByCodeAsc(deptCode);
     }
+
     // ===== TODO 11 =====
+
     @Override
     public List<Course> findCoursesWithoutStudents() {
         return courseRepository.findByStudentsIsEmpty();
+    }
+
+    // ===== TODO 13 =====
+
+    @Override
+    public List<CourseStatDTO> getStatistics() {
+        return courseRepository.getCourseStats();
     }
 }
