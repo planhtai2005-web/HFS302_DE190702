@@ -140,4 +140,8 @@ public interface StudentRepository
     long countByCourses_Code(String courseCode);
 
     List<Student> findByCourses_CodeAndActiveTrueOrderByFullNameAsc(String courseCode);
+    // ===== TODO 11 =====
+    List<Student> findByCoursesIsEmptyOrderByFullNameAsc();
+
+    boolean existsByStudentCodeAndCourses_Code(String studentCode, String courseCode);
     }

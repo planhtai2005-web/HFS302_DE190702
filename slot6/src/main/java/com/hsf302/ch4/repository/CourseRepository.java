@@ -22,4 +22,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByStudents_Department_CodeOrderByCodeAsc(String deptCode);
 
     List<Course> findDistinctByStudents_Department_CodeOrderByCodeAsc(String deptCode);
+    // ===== TODO 11 =====
+    List<Course> findByStudentsIsEmpty();
 }
