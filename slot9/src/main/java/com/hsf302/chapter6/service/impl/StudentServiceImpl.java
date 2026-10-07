@@ -3,6 +3,8 @@ package com.hsf302.chapter6.service.impl;
 import com.hsf302.chapter6.entity.Student;
 import com.hsf302.chapter6.repository.StudentRepository;
 import com.hsf302.chapter6.service.StudentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,30 @@ public class StudentServiceImpl implements StudentService {
                         value,
                         value,
                         Sort.by(Sort.Direction.ASC, "id")
+                );
+    }
+
+    @Override
+    public Page<Student> findAll(Pageable pageable) {
+        return studentRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Student> search(
+            String keyword,
+            Pageable pageable) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return findAll(pageable);
+        }
+
+        String value = keyword.trim();
+
+        return studentRepository
+                .findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                        value,
+                        value,
+                        pageable
                 );
     }
 
@@ -84,13 +110,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean isEmailTaken(String email, Long excludeId) {
+    public boolean isEmailTaken(
+            String email,
+            Long excludeId) {
+
         if (email == null || email.isBlank()) {
             return false;
         }
 
         return excludeId == null
-                ? studentRepository.existsByEmailIgnoreCase(email.trim())
+                ? studentRepository.existsByEmailIgnoreCase(
+                email.trim())
                 : studentRepository.existsByEmailIgnoreCaseAndIdNot(
                 email.trim(),
                 excludeId

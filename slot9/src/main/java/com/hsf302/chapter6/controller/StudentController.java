@@ -4,6 +4,10 @@ import com.hsf302.chapter6.entity.Student;
 import com.hsf302.chapter6.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,19 +34,51 @@ public class StudentController {
     }
 
     // =========================
-    // LIST + SEARCH
+    // LIST + SEARCH + PAGINATION
     // =========================
     @GetMapping
     public String list(
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
             Model model) {
+
+        if (page < 0) {
+            page = 0;
+        }
+
+        if (size <= 0) {
+            size = 5;
+        }
+
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.ASC, "id")
+        );
+
+        Page<Student> studentPage =
+                studentService.search(keyword, pageable);
 
         model.addAttribute(
                 "students",
-                studentService.search(keyword)
+                studentPage.getContent()
         );
 
-        model.addAttribute("keyword", keyword);
+        model.addAttribute(
+                "page",
+                studentPage
+        );
+
+        model.addAttribute(
+                "keyword",
+                keyword
+        );
+
+        model.addAttribute(
+                "size",
+                size
+        );
 
         return "students/list";
     }
@@ -111,9 +147,7 @@ public class StudentController {
         }
 
         try {
-
             studentService.create(student);
-
         } catch (DataIntegrityViolationException e) {
 
             bindingResult.rejectValue(
