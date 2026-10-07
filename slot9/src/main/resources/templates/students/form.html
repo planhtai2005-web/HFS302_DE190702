@@ -15,6 +15,7 @@
                     <li class="breadcrumb-item">
                         <a th:href="@{/students}">Sinh viên</a>
                     </li>
+
                     <li class="breadcrumb-item active"
                         th:text="${pageTitle}">
                         Form
@@ -23,32 +24,55 @@
             </nav>
 
             <div class="card shadow-sm">
+
                 <div class="card-header bg-primary text-white">
+
                     <h5 class="mb-0">
+
                         <i class="bi me-2"
-                           th:classappend="${isEdit} ? 'bi-person-check' : 'bi-person-plus'"></i>
-                        <span th:text="${pageTitle}">Form</span>
+                           th:classappend="${isEdit} ? 'bi-person-check' : 'bi-person-plus'">
+                        </i>
+
+                        <span th:text="${pageTitle}">
+                            Form
+                        </span>
+
                     </h5>
+
                 </div>
 
                 <div class="card-body">
 
-                    <form th:action="${isEdit} ? @{/students/{id}/edit(id=${student.id})} : @{/students/create}"
-                          th:object="${student}"
+                    <!-- =========================
+                         STUDENT FORM DTO
+                         ========================= -->
+                    <form th:action="${isEdit}
+                            ? @{/students/{id}/edit(id=${studentForm.id})}
+                            : @{/students/create}"
+                          th:object="${studentForm}"
                           method="post"
                           novalidate>
 
                         <!-- Lỗi tổng hợp -->
                         <div th:if="${#fields.hasAnyErrors()}"
                              class="alert alert-warning py-2">
+
                             Vui lòng kiểm tra lại các trường được đánh dấu đỏ.
+
                         </div>
 
-                        <!-- Họ tên -->
+
+                        <!-- =========================
+                             HỌ TÊN
+                             ========================= -->
                         <div class="mb-3">
+
                             <label for="name"
                                    class="form-label fw-semibold">
-                                Họ tên <span class="text-danger">*</span>
+
+                                Họ tên
+                                <span class="text-danger">*</span>
+
                             </label>
 
                             <input type="text"
@@ -59,15 +83,25 @@
 
                             <div class="invalid-feedback"
                                  th:errors="*{name}">
+
                                 Lỗi tên
+
                             </div>
+
                         </div>
 
-                        <!-- Email -->
+
+                        <!-- =========================
+                             EMAIL
+                             ========================= -->
                         <div class="mb-3">
+
                             <label for="email"
                                    class="form-label fw-semibold">
-                                Email <span class="text-danger">*</span>
+
+                                Email
+                                <span class="text-danger">*</span>
+
                             </label>
 
                             <input type="email"
@@ -78,15 +112,25 @@
 
                             <div class="invalid-feedback"
                                  th:errors="*{email}">
+
                                 Lỗi email
+
                             </div>
+
                         </div>
 
-                        <!-- Tuổi -->
+
+                        <!-- =========================
+                             TUỔI
+                             ========================= -->
                         <div class="mb-3">
+
                             <label for="age"
                                    class="form-label fw-semibold">
-                                Tuổi <span class="text-danger">*</span>
+
+                                Tuổi
+                                <span class="text-danger">*</span>
+
                             </label>
 
                             <input type="number"
@@ -98,15 +142,25 @@
 
                             <div class="invalid-feedback"
                                  th:errors="*{age}">
+
                                 Lỗi tuổi
+
                             </div>
+
                         </div>
 
-                        <!-- Chuyên ngành -->
+
+                        <!-- =========================
+                             CHUYÊN NGÀNH
+                             ========================= -->
                         <div class="mb-3">
+
                             <label for="major"
                                    class="form-label fw-semibold">
-                                Chuyên ngành <span class="text-danger">*</span>
+
+                                Chuyên ngành
+                                <span class="text-danger">*</span>
+
                             </label>
 
                             <select class="form-select"
@@ -121,19 +175,30 @@
                                         th:value="${m}"
                                         th:text="${m}">
                                 </option>
+
                             </select>
 
                             <div class="invalid-feedback"
                                  th:errors="*{major}">
+
                                 Lỗi chuyên ngành
+
                             </div>
+
                         </div>
 
-                        <!-- GPA -->
+
+                        <!-- =========================
+                             GPA
+                             ========================= -->
                         <div class="mb-4">
+
                             <label for="gpa"
                                    class="form-label fw-semibold">
-                                GPA <span class="text-danger">*</span>
+
+                                GPA
+                                <span class="text-danger">*</span>
+
                             </label>
 
                             <input type="number"
@@ -151,26 +216,42 @@
 
                             <div class="invalid-feedback"
                                  th:errors="*{gpa}">
+
                                 Lỗi GPA
+
                             </div>
+
                         </div>
 
-                        <!-- Buttons -->
+
+                        <!-- =========================
+                             BUTTONS
+                             ========================= -->
                         <div class="d-flex gap-2">
 
                             <button type="submit"
                                     class="btn btn-primary">
+
                                 <i class="bi bi-save me-1"></i>
 
-                                <span th:text="${isEdit} ? 'Cập nhật' : 'Thêm mới'">
+                                <span th:text="${isEdit}
+                                        ? 'Cập nhật'
+                                        : 'Thêm mới'">
+
                                     Lưu
+
                                 </span>
+
                             </button>
+
 
                             <a th:href="@{/students}"
                                class="btn btn-outline-secondary">
+
                                 <i class="bi bi-x-lg me-1"></i>
+
                                 Hủy
+
                             </a>
 
                         </div>
@@ -178,6 +259,7 @@
                     </form>
 
                 </div>
+
             </div>
 
         </div>

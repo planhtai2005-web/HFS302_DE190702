@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.hsf302.chapter6.dto.StudentForm;
 import java.util.List;
 
 @Controller
@@ -162,8 +162,8 @@ public class StudentController {
     public String showCreateForm(Model model) {
 
         model.addAttribute(
-                "student",
-                new Student()
+                "studentForm",
+                new StudentForm()
         );
 
         return formView(model, false);
@@ -174,14 +174,14 @@ public class StudentController {
     // =========================
     @PostMapping("/create")
     public String create(
-            @Valid @ModelAttribute("student") Student student,
+            @Valid @ModelAttribute("studentForm") StudentForm form,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes ra) {
 
         if (!bindingResult.hasFieldErrors("email")
                 && studentService.isEmailTaken(
-                student.getEmail(),
+                form.getEmail(),
                 null)) {
 
             bindingResult.rejectValue(
@@ -196,7 +196,9 @@ public class StudentController {
         }
 
         try {
-            studentService.create(student);
+            studentService.create(
+                    studentService.toEntity(form)
+            );
         } catch (DataIntegrityViolationException e) {
 
             bindingResult.rejectValue(
@@ -229,8 +231,8 @@ public class StudentController {
                 .map(student -> {
 
                     model.addAttribute(
-                            "student",
-                            student
+                            "studentForm",
+                            studentService.toForm(student)
                     );
 
                     return formView(model, true);
@@ -245,23 +247,22 @@ public class StudentController {
                     return "redirect:/students";
                 });
     }
-
     // =========================
     // EDIT - UPDATE
     // =========================
     @PostMapping("/{id}/edit")
     public String update(
             @PathVariable("id") Long id,
-            @Valid @ModelAttribute("student") Student student,
+            @Valid @ModelAttribute("studentForm") StudentForm form,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes ra) {
 
-        student.setId(id);
+        form.setId(id);
 
         if (!bindingResult.hasFieldErrors("email")
                 && studentService.isEmailTaken(
-                student.getEmail(),
+                form.getEmail(),
                 id)) {
 
             bindingResult.rejectValue(
@@ -276,6 +277,9 @@ public class StudentController {
         }
 
         try {
+
+            Student student =
+                    studentService.toEntity(form);
 
             if (studentService.update(id, student)) {
 
@@ -305,7 +309,6 @@ public class StudentController {
 
         return "redirect:/students";
     }
-
     // =========================
     // DELETE
     // =========================
@@ -353,4 +356,5 @@ public class StudentController {
 
         return FORM_VIEW;
     }
+
 }

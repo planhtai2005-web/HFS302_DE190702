@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.hsf302.chapter6.dto.StudentForm;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,5 +136,34 @@ public class StudentServiceImpl implements StudentService {
                 "ATTT",
                 "MMT"
         );
+    }
+    @Override
+    public StudentForm toForm(Student student) {
+
+        StudentForm form = new StudentForm();
+
+        form.setId(student.getId());
+        form.setName(student.getName());
+        form.setEmail(student.getEmail());
+        form.setAge(student.getAge());
+        form.setMajor(student.getMajor());
+        form.setGpa(student.getGpa());
+
+        return form;
+    }
+
+    @Override
+    public Student toEntity(StudentForm form) {
+
+        Student student = new Student();
+
+        student.setId(form.getId());
+        student.setName(form.getName());
+        student.setEmail(form.getEmail());
+        student.setAge(form.getAge());
+        student.setMajor(form.getMajor());
+        student.setGpa(form.getGpa());
+
+        return student;
     }
 }
