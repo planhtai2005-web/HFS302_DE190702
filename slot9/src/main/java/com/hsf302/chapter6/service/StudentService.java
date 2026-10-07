@@ -9,6 +9,8 @@ public interface StudentService {
 
     List<Student> findAll();
 
+    List<Student> search(String keyword);
+
     Optional<Student> findById(Long id);
 
     Student create(Student student);

@@ -4,33 +4,89 @@
 <head>
     <title>Danh sách sinh viên</title>
 </head>
+
 <body>
 <section>
 
+    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-people-fill me-2"></i>Danh sách sinh viên</h2>
-        <a th:href="@{/students/create}" class="btn btn-primary">
-            <i class="bi bi-plus-lg me-1"></i>Thêm sinh viên
+
+        <h2>
+            <i class="bi bi-people-fill me-2"></i>
+            Danh sách sinh viên
+        </h2>
+
+        <a th:href="@{/students/create}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-lg me-1"></i>
+            Thêm sinh viên
+
         </a>
+
     </div>
 
+    <!-- SEARCH -->
+    <form th:action="@{/students}"
+          method="get"
+          class="row g-2 mb-4">
+
+        <div class="col-md-10">
+
+            <input type="text"
+                   name="keyword"
+                   class="form-control"
+                   th:value="${keyword}"
+                   placeholder="Tìm theo tên hoặc email..."/>
+
+        </div>
+
+        <div class="col-md-2 d-grid">
+
+            <button type="submit"
+                    class="btn btn-outline-primary">
+
+                <i class="bi bi-search me-1"></i>
+                Tìm kiếm
+
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- STUDENT TABLE -->
     <div class="card shadow-sm">
+
         <div class="card-body p-0">
 
-            <!-- Trường hợp rỗng -->
+            <!-- EMPTY -->
             <div th:if="${#lists.isEmpty(students)}"
                  class="text-center p-5 text-muted">
+
                 <i class="bi bi-inbox display-4"></i>
-                <p class="mt-2">Chưa có sinh viên nào.</p>
+
+                <p class="mt-2">
+                    Không tìm thấy sinh viên nào.
+                </p>
+
                 <a th:href="@{/students/create}"
-                   class="btn btn-outline-primary">Thêm ngay</a>
+                   class="btn btn-outline-primary">
+
+                    Thêm sinh viên
+
+                </a>
+
             </div>
 
-            <!-- Bảng dữ liệu -->
+            <!-- TABLE -->
             <table th:unless="${#lists.isEmpty(students)}"
                    class="table table-hover mb-0">
+
                 <thead>
+
                 <tr>
+
                     <th>#</th>
                     <th>ID</th>
                     <th>Họ tên</th>
@@ -39,60 +95,95 @@
                     <th>Chuyên ngành</th>
                     <th>GPA</th>
                     <th class="text-center">Thao tác</th>
+
                 </tr>
+
                 </thead>
 
                 <tbody>
+
                 <tr th:each="student, stat : ${students}">
 
-                    <td th:text="${stat.count}">1</td>
+                    <!-- STT -->
+                    <td th:text="${stat.count}">
+                        1
+                    </td>
 
-                    <td th:text="${student.id}">1</td>
+                    <!-- ID -->
+                    <td th:text="${student.id}">
+                        1
+                    </td>
 
+                    <!-- NAME -->
                     <td>
+
                         <a th:href="@{/students/{id}(id=${student.id})}"
                            th:text="${student.name}"
                            class="text-decoration-none fw-semibold">
+
                             Tên
+
                         </a>
+
                     </td>
 
-                    <td th:text="${student.email}">email</td>
+                    <!-- EMAIL -->
+                    <td th:text="${student.email}">
+                        email
+                    </td>
 
-                    <td th:text="${student.age}">20</td>
+                    <!-- AGE -->
+                    <td th:text="${student.age}">
+                        20
+                    </td>
 
+                    <!-- MAJOR -->
                     <td>
+
                         <span class="badge bg-secondary"
                               th:text="${student.major}">
+
                             CNTT
+
                         </span>
+
                     </td>
 
+                    <!-- GPA -->
                     <td>
+
                         <span th:classappend="${student.gpa >= 3.5} ? 'gpa-high' :
                                               (${student.gpa >= 2.5} ? 'gpa-mid' : 'gpa-low')"
                               th:text="${#numbers.formatDecimal(student.gpa, 1, 1)}">
+
                             3.5
+
                         </span>
+
                     </td>
 
+                    <!-- ACTIONS -->
                     <td class="text-center">
 
-                        <!-- Chi tiết -->
+                        <!-- DETAIL -->
                         <a th:href="@{/students/{id}(id=${student.id})}"
                            class="btn btn-sm btn-outline-info me-1"
                            title="Chi tiết">
+
                             <i class="bi bi-eye"></i>
+
                         </a>
 
-                        <!-- Sửa -->
+                        <!-- EDIT -->
                         <a th:href="@{/students/{id}/edit(id=${student.id})}"
                            class="btn btn-sm btn-outline-warning me-1"
                            title="Sửa">
+
                             <i class="bi bi-pencil"></i>
+
                         </a>
 
-                        <!-- Xóa -->
+                        <!-- DELETE -->
                         <form th:action="@{/students/{id}/delete(id=${student.id})}"
                               method="post"
                               class="d-inline"
@@ -102,26 +193,39 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger"
                                     title="Xóa">
+
                                 <i class="bi bi-trash"></i>
+
                             </button>
 
                         </form>
 
                     </td>
+
                 </tr>
+
                 </tbody>
+
             </table>
 
         </div>
+
     </div>
 
+    <!-- TOTAL -->
     <div th:unless="${#lists.isEmpty(students)}"
          class="text-muted mt-2">
+
         <small>
+
             Tổng:
-            <strong th:text="${#lists.size(students)}">0</strong>
+            <strong th:text="${#lists.size(students)}">
+                0
+            </strong>
             sinh viên
+
         </small>
+
     </div>
 
 </section>

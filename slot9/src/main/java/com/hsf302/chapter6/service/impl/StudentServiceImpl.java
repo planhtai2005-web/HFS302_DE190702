@@ -28,6 +28,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> search(String keyword) {
+
+        if (keyword == null || keyword.isBlank()) {
+            return findAll();
+        }
+
+        String value = keyword.trim();
+
+        return studentRepository
+                .findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                        value,
+                        value,
+                        Sort.by(Sort.Direction.ASC, "id")
+                );
+    }
+
+    @Override
     public Optional<Student> findById(Long id) {
         return studentRepository.findById(id);
     }
@@ -75,7 +92,8 @@ public class StudentServiceImpl implements StudentService {
         return excludeId == null
                 ? studentRepository.existsByEmailIgnoreCase(email.trim())
                 : studentRepository.existsByEmailIgnoreCaseAndIdNot(
-                email.trim(), excludeId
+                email.trim(),
+                excludeId
         );
     }
 

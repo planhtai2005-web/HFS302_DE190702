@@ -29,20 +29,32 @@ public class StudentController {
         return studentService.getMajors();
     }
 
-    // ==================== READ ALL ====================
-
+    // =========================
+    // LIST + SEARCH
+    // =========================
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("students", studentService.findAll());
+    public String list(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
+
+        model.addAttribute(
+                "students",
+                studentService.search(keyword)
+        );
+
+        model.addAttribute("keyword", keyword);
+
         return "students/list";
     }
 
-    // ==================== READ ONE ====================
-
+    // =========================
+    // DETAIL
+    // =========================
     @GetMapping("/{id}")
-    public String detail(@PathVariable("id") Long id,
-                         Model model,
-                         RedirectAttributes ra) {
+    public String detail(
+            @PathVariable("id") Long id,
+            Model model,
+            RedirectAttributes ra) {
 
         return studentService.findById(id)
                 .map(student -> {
@@ -58,14 +70,23 @@ public class StudentController {
                 });
     }
 
-    // ==================== CREATE ====================
-
+    // =========================
+    // CREATE - FORM
+    // =========================
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("student", new Student());
+
+        model.addAttribute(
+                "student",
+                new Student()
+        );
+
         return formView(model, false);
     }
 
+    // =========================
+    // CREATE - SAVE
+    // =========================
     @PostMapping("/create")
     public String create(
             @Valid @ModelAttribute("student") Student student,
@@ -74,7 +95,9 @@ public class StudentController {
             RedirectAttributes ra) {
 
         if (!bindingResult.hasFieldErrors("email")
-                && studentService.isEmailTaken(student.getEmail(), null)) {
+                && studentService.isEmailTaken(
+                student.getEmail(),
+                null)) {
 
             bindingResult.rejectValue(
                     "email",
@@ -88,13 +111,17 @@ public class StudentController {
         }
 
         try {
+
             studentService.create(student);
+
         } catch (DataIntegrityViolationException e) {
+
             bindingResult.rejectValue(
                     "email",
                     "duplicate",
                     "Email đã tồn tại"
             );
+
             return formView(model, false);
         }
 
@@ -106,8 +133,9 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    // ==================== UPDATE ====================
-
+    // =========================
+    // EDIT - FORM
+    // =========================
     @GetMapping("/{id}/edit")
     public String showEditForm(
             @PathVariable("id") Long id,
@@ -116,18 +144,28 @@ public class StudentController {
 
         return studentService.findById(id)
                 .map(student -> {
-                    model.addAttribute("student", student);
+
+                    model.addAttribute(
+                            "student",
+                            student
+                    );
+
                     return formView(model, true);
                 })
                 .orElseGet(() -> {
+
                     ra.addFlashAttribute(
                             "errorMsg",
                             "Không tìm thấy sinh viên ID: " + id
                     );
+
                     return "redirect:/students";
                 });
     }
 
+    // =========================
+    // EDIT - UPDATE
+    // =========================
     @PostMapping("/{id}/edit")
     public String update(
             @PathVariable("id") Long id,
@@ -139,7 +177,9 @@ public class StudentController {
         student.setId(id);
 
         if (!bindingResult.hasFieldErrors("email")
-                && studentService.isEmailTaken(student.getEmail(), id)) {
+                && studentService.isEmailTaken(
+                student.getEmail(),
+                id)) {
 
             bindingResult.rejectValue(
                     "email",
@@ -153,42 +193,53 @@ public class StudentController {
         }
 
         try {
+
             if (studentService.update(id, student)) {
+
                 ra.addFlashAttribute(
                         "successMsg",
                         "Cập nhật thành công!"
                 );
+
             } else {
+
                 ra.addFlashAttribute(
                         "errorMsg",
                         "Không tìm thấy sinh viên ID: " + id
                 );
             }
+
         } catch (DataIntegrityViolationException e) {
+
             bindingResult.rejectValue(
                     "email",
                     "duplicate",
                     "Email đã được sinh viên khác sử dụng"
             );
+
             return formView(model, true);
         }
 
         return "redirect:/students";
     }
 
-    // ==================== DELETE ====================
-
+    // =========================
+    // DELETE
+    // =========================
     @PostMapping("/{id}/delete")
     public String delete(
             @PathVariable("id") Long id,
             RedirectAttributes ra) {
 
         if (studentService.delete(id)) {
+
             ra.addFlashAttribute(
                     "successMsg",
                     "Xóa sinh viên thành công!"
             );
+
         } else {
+
             ra.addFlashAttribute(
                     "errorMsg",
                     "Không tìm thấy sinh viên để xóa!"
@@ -198,14 +249,25 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    // ==================== Helper ====================
+    // =========================
+    // FORM VIEW
+    // =========================
+    private String formView(
+            Model model,
+            boolean isEdit) {
 
-    private String formView(Model model, boolean isEdit) {
-        model.addAttribute("isEdit", isEdit);
+        model.addAttribute(
+                "isEdit",
+                isEdit
+        );
+
         model.addAttribute(
                 "pageTitle",
-                isEdit ? "Cập nhật sinh viên" : "Thêm sinh viên mới"
+                isEdit
+                        ? "Cập nhật sinh viên"
+                        : "Thêm sinh viên mới"
         );
+
         return FORM_VIEW;
     }
 }
