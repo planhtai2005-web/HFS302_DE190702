@@ -34,13 +34,14 @@ public class StudentController {
     }
 
     // =========================
-    // LIST + SEARCH + PAGINATION
+    // LIST + SEARCH + PAGINATION + SORTING
     // =========================
     @GetMapping
     public String list(
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "sort", defaultValue = "id,asc") String sort,
             Model model) {
 
         if (page < 0) {
@@ -51,10 +52,43 @@ public class StudentController {
             size = 5;
         }
 
+        // =========================
+        // XỬ LÝ SORT
+        // Ví dụ:
+        // ?sort=gpa,desc
+        // ?sort=name,asc
+        // =========================
+
+        String[] sortParts = sort.split(",");
+
+        String sortField = sortParts[0];
+        String sortDirection = sortParts.length > 1
+                ? sortParts[1]
+                : "asc";
+
+        // Chỉ cho phép sort các field hợp lệ
+        List<String> allowedFields = List.of(
+                "id",
+                "name",
+                "email",
+                "age",
+                "major",
+                "gpa"
+        );
+
+        if (!allowedFields.contains(sortField)) {
+            sortField = "id";
+        }
+
+        Sort.Direction direction =
+                "desc".equalsIgnoreCase(sortDirection)
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC;
+
         Pageable pageable = PageRequest.of(
                 page,
                 size,
-                Sort.by(Sort.Direction.ASC, "id")
+                Sort.by(direction, sortField)
         );
 
         Page<Student> studentPage =
@@ -78,6 +112,21 @@ public class StudentController {
         model.addAttribute(
                 "size",
                 size
+        );
+
+        model.addAttribute(
+                "sort",
+                sortField + "," + direction.name().toLowerCase()
+        );
+
+        model.addAttribute(
+                "sortField",
+                sortField
+        );
+
+        model.addAttribute(
+                "sortDirection",
+                direction.name().toLowerCase()
         );
 
         return "students/list";

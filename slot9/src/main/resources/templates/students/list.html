@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout(~{::title}, ~{::section})}">
+
 <head>
     <title>Danh sách sinh viên</title>
 </head>
 
 <body>
+
 <section>
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+         ========================= -->
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <h2>
@@ -26,7 +31,10 @@
 
     </div>
 
-    <!-- SEARCH -->
+
+    <!-- =========================
+         SEARCH
+         ========================= -->
     <form th:action="@{/students}"
           method="get"
           class="row g-2 mb-4">
@@ -40,6 +48,15 @@
                    placeholder="Tìm theo tên hoặc email..."/>
 
         </div>
+
+        <!-- Giữ sort khi search -->
+        <input type="hidden"
+               name="sort"
+               th:value="${sort}"/>
+
+        <input type="hidden"
+               name="size"
+               th:value="${size}"/>
 
         <div class="col-md-2 d-grid">
 
@@ -55,12 +72,16 @@
 
     </form>
 
-    <!-- STUDENT TABLE -->
+
+    <!-- =========================
+         TABLE
+         ========================= -->
     <div class="card shadow-sm">
 
         <div class="card-body p-0">
 
-            <!-- EMPTY -->
+
+            <!-- Không có dữ liệu -->
             <div th:if="${#lists.isEmpty(students)}"
                  class="text-center p-5 text-muted">
 
@@ -79,38 +100,183 @@
 
             </div>
 
-            <!-- TABLE -->
+
+            <!-- Có dữ liệu -->
             <table th:unless="${#lists.isEmpty(students)}"
                    class="table table-hover mb-0">
 
                 <thead>
+
                 <tr>
 
-                    <th>#</th>
-                    <th>ID</th>
-                    <th>Họ tên</th>
-                    <th>Email</th>
-                    <th>Tuổi</th>
-                    <th>Chuyên ngành</th>
-                    <th>GPA</th>
-                    <th class="text-center">Thao tác</th>
+                    <!-- =========================
+                         #
+                         ========================= -->
+                    <th>
+                        #
+                    </th>
+
+
+                    <!-- =========================
+                         ID
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='id,asc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            ID
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         HỌ TÊN
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='name,asc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            Họ tên
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         EMAIL
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='email,asc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            Email
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         TUỔI
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='age,asc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            Tuổi
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         CHUYÊN NGÀNH
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='major,asc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            Chuyên ngành
+
+                            <i class="bi bi-arrow-down-up ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         GPA
+                         ========================= -->
+                    <th>
+
+                        <a th:href="@{/students(
+                                page=0,
+                                size=${size},
+                                keyword=${keyword},
+                                sort='gpa,desc'
+                           )}"
+                           class="text-decoration-none text-dark">
+
+                            GPA
+
+                            <i class="bi bi-sort-down ms-1"></i>
+
+                        </a>
+
+                    </th>
+
+
+                    <!-- =========================
+                         ACTION
+                         ========================= -->
+                    <th class="text-center">
+                        Thao tác
+                    </th>
 
                 </tr>
+
                 </thead>
+
 
                 <tbody>
 
                 <tr th:each="student, stat : ${students}">
+
 
                     <!-- STT -->
                     <td th:text="${page.number * page.size + stat.count}">
                         1
                     </td>
 
+
                     <!-- ID -->
                     <td th:text="${student.id}">
                         1
                     </td>
+
 
                     <!-- NAME -->
                     <td>
@@ -125,15 +291,18 @@
 
                     </td>
 
+
                     <!-- EMAIL -->
                     <td th:text="${student.email}">
                         email
                     </td>
 
+
                     <!-- AGE -->
                     <td th:text="${student.age}">
                         20
                     </td>
+
 
                     <!-- MAJOR -->
                     <td>
@@ -146,6 +315,7 @@
                         </span>
 
                     </td>
+
 
                     <!-- GPA -->
                     <td>
@@ -160,7 +330,8 @@
 
                     </td>
 
-                    <!-- ACTIONS -->
+
+                    <!-- ACTION -->
                     <td class="text-center">
 
                         <!-- DETAIL -->
@@ -172,6 +343,7 @@
 
                         </a>
 
+
                         <!-- EDIT -->
                         <a th:href="@{/students/{id}/edit(id=${student.id})}"
                            class="btn btn-sm btn-outline-warning me-1"
@@ -180,6 +352,7 @@
                             <i class="bi bi-pencil"></i>
 
                         </a>
+
 
                         <!-- DELETE -->
                         <form th:action="@{/students/{id}/delete(id=${student.id})}"
@@ -210,32 +383,43 @@
 
     </div>
 
-    <!-- TOTAL -->
+
+    <!-- =========================
+         RESULT COUNT
+         ========================= -->
     <div th:if="${page != null}"
          class="text-muted mt-2">
 
         <small>
 
             Hiển thị
+
             <strong th:text="${page.numberOfElements}">
                 0
             </strong>
+
             / tổng
+
             <strong th:text="${page.totalElements}">
                 0
             </strong>
+
             sinh viên
 
         </small>
 
     </div>
 
-    <!-- PAGINATION -->
+
+    <!-- =========================
+         PAGINATION
+         ========================= -->
     <nav th:if="${page != null and page.totalPages > 1}"
          aria-label="Student pagination"
          class="mt-4">
 
         <ul class="pagination justify-content-center">
+
 
             <!-- PREVIOUS -->
             <li class="page-item"
@@ -245,14 +429,18 @@
                    th:href="@{/students(
                        page=${page.number - 1},
                        size=${size},
-                       keyword=${keyword}
+                       keyword=${keyword},
+                       sort=${sort}
                    )}">
+
                     <i class="bi bi-chevron-left"></i>
+
                 </a>
 
             </li>
 
-            <!-- PAGE NUMBERS -->
+
+            <!-- PAGE NUMBER -->
             <li class="page-item"
                 th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
                 th:classappend="${i == page.number} ? 'active'">
@@ -261,7 +449,8 @@
                    th:href="@{/students(
                        page=${i},
                        size=${size},
-                       keyword=${keyword}
+                       keyword=${keyword},
+                       sort=${sort}
                    )}"
                    th:text="${i + 1}">
 
@@ -271,6 +460,7 @@
 
             </li>
 
+
             <!-- NEXT -->
             <li class="page-item"
                 th:classappend="${page.last} ? 'disabled'">
@@ -279,9 +469,12 @@
                    th:href="@{/students(
                        page=${page.number + 1},
                        size=${size},
-                       keyword=${keyword}
+                       keyword=${keyword},
+                       sort=${sort}
                    )}">
+
                     <i class="bi bi-chevron-right"></i>
+
                 </a>
 
             </li>
@@ -291,5 +484,6 @@
     </nav>
 
 </section>
+
 </body>
 </html>
