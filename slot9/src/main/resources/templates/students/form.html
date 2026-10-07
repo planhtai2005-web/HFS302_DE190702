@@ -155,7 +155,7 @@
                              ========================= -->
                         <div class="mb-3">
 
-                            <label for="major"
+                            <label for="majorId"
                                    class="form-label fw-semibold">
 
                                 Chuyên ngành
@@ -164,7 +164,7 @@
                             </label>
 
                             <select class="form-select"
-                                    th:field="*{major}"
+                                    th:field="*{majorId}"
                                     th:errorclass="is-invalid">
 
                                 <option value="">
@@ -172,22 +172,20 @@
                                 </option>
 
                                 <option th:each="m : ${majors}"
-                                        th:value="${m}"
-                                        th:text="${m}">
+                                        th:value="${m.id}"
+                                        th:text="${m.code + ' - ' + m.name}">
                                 </option>
 
                             </select>
 
                             <div class="invalid-feedback"
-                                 th:errors="*{major}">
+                                 th:errors="*{majorId}">
 
                                 Lỗi chuyên ngành
 
                             </div>
 
                         </div>
-
-
                         <!-- =========================
                              GPA
                              ========================= -->

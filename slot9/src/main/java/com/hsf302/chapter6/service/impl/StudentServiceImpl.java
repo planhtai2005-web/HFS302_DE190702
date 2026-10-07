@@ -11,17 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hsf302.chapter6.dto.StudentForm;
 import java.util.List;
 import java.util.Optional;
-
+import com.hsf302.chapter6.entity.Major;
+import com.hsf302.chapter6.repository.MajorRepository;
 @Service
 @Transactional(readOnly = true)
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final MajorRepository majorRepository;
+    public StudentServiceImpl(
+            StudentRepository studentRepository,
+            MajorRepository majorRepository) {
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+        this.majorRepository = majorRepository;
     }
-
     @Override
     public List<Student> findAll() {
         return studentRepository.findAll(
@@ -128,13 +132,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<String> getMajors() {
-        return List.of(
-                "CNTT",
-                "KTPM",
-                "HTTT",
-                "ATTT",
-                "MMT"
+    public List<Major> getMajors() {
+        return majorRepository.findAll(
+                Sort.by(Sort.Direction.ASC, "code")
         );
     }
     @Override
@@ -146,12 +146,15 @@ public class StudentServiceImpl implements StudentService {
         form.setName(student.getName());
         form.setEmail(student.getEmail());
         form.setAge(student.getAge());
-        form.setMajor(student.getMajor());
+
+        if (student.getMajor() != null) {
+            form.setMajorId(student.getMajor().getId());
+        }
+
         form.setGpa(student.getGpa());
 
         return form;
     }
-
     @Override
     public Student toEntity(StudentForm form) {
 
@@ -161,7 +164,15 @@ public class StudentServiceImpl implements StudentService {
         student.setName(form.getName());
         student.setEmail(form.getEmail());
         student.setAge(form.getAge());
-        student.setMajor(form.getMajor());
+
+        Major major = majorRepository
+                .findById(form.getMajorId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Không tìm thấy chuyên ngành"
+                        ));
+
+        student.setMajor(major);
         student.setGpa(form.getGpa());
 
         return student;

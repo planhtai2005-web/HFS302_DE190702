@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hsf302.chapter6.dto.StudentForm;
 import java.util.List;
+import com.hsf302.chapter6.entity.Major;
 
 @Controller
 @RequestMapping("/students")
@@ -29,10 +30,9 @@ public class StudentController {
     }
 
     @ModelAttribute("majors")
-    public List<String> majors() {
+    public List<Major> majors() {
         return studentService.getMajors();
     }
-
     // =========================
     // LIST + SEARCH + PAGINATION + SORTING
     // =========================

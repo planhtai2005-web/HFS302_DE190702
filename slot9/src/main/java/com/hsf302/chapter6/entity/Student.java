@@ -1,4 +1,3 @@
-
 package com.hsf302.chapter6.entity;
 
 import jakarta.persistence.*;
@@ -13,46 +12,82 @@ public class Student {
     private Long id;
 
     @NotBlank(message = "Tên không được để trống")
-    @Size(min = 2, max = 50, message = "Tên phải từ 2 đến 50 ký tự")
-    @Column(name = "name", nullable = false, length = 50)
+    @Size(
+            min = 2,
+            max = 50,
+            message = "Tên phải từ 2 đến 50 ký tự"
+    )
+    @Column(
+            name = "name",
+            nullable = false,
+            length = 50
+    )
     private String name;
 
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email không đúng định dạng")
-    @Size(max = 100, message = "Email tối đa 100 ký tự")
-    @Column(name = "email", nullable = false, length = 100, unique = true)
+    @Size(
+            max = 100,
+            message = "Email tối đa 100 ký tự"
+    )
+    @Column(
+            name = "email",
+            nullable = false,
+            length = 100,
+            unique = true
+    )
     private String email;
 
     @NotNull(message = "Tuổi không được để trống")
-    @Min(value = 18, message = "Tuổi tối thiểu là 18")
-    @Max(value = 30, message = "Tuổi tối đa là 30")
-    @Column(name = "age", nullable = false)
+    @Min(
+            value = 18,
+            message = "Tuổi tối thiểu là 18"
+    )
+    @Max(
+            value = 30,
+            message = "Tuổi tối đa là 30"
+    )
+    @Column(
+            name = "age",
+            nullable = false
+    )
     private Integer age;
 
-    @NotBlank(message = "Chuyên ngành không được để trống")
-    @Column(name = "major", nullable = false, length = 20)
-    private String major;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "major_id", nullable = false)
+    private Major major;
 
     @NotNull(message = "GPA không được để trống")
-    @DecimalMin(value = "0.0", message = "GPA tối thiểu là 0.0")
-    @DecimalMax(value = "4.0", message = "GPA tối đa là 4.0")
-    @Column(name = "gpa", nullable = false)
+    @DecimalMin(
+            value = "0.0",
+            message = "GPA tối thiểu là 0.0"
+    )
+    @DecimalMax(
+            value = "4.0",
+            message = "GPA tối đa là 4.0"
+    )
+    @Column(
+            name = "gpa",
+            nullable = false
+    )
     private Double gpa;
-
-    // ===== Constructors =====
 
     public Student() {
     }
 
-    public Student(String name, String email, Integer age, String major, Double gpa) {
+    public Student(
+            String name,
+            String email,
+            Integer age,
+            Major major,
+            Double gpa) {
+
         this.name = name;
         this.email = email;
         this.age = age;
         this.major = major;
         this.gpa = gpa;
     }
-
-    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
@@ -86,11 +121,11 @@ public class Student {
         this.age = age;
     }
 
-    public String getMajor() {
+    public Major getMajor() {
         return major;
     }
 
-    public void setMajor(String major) {
+    public void setMajor(Major major) {
         this.major = major;
     }
 
@@ -104,8 +139,12 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{id=" + id
-                + ", name='" + name
-                + "', email='" + email + "'}";
+        return "Student{id="
+                + id
+                + ", name='"
+                + name
+                + "', email='"
+                + email
+                + "'}";
     }
 }

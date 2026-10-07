@@ -4,7 +4,7 @@ import com.hsf302.chapter6.dto.StudentForm;
 import com.hsf302.chapter6.entity.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import com.hsf302.chapter6.entity.Major;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public interface StudentService {
 
     boolean isEmailTaken(String email, Long excludeId);
 
-    List<String> getMajors();
+    List<Major> getMajors();
 
     // DTO mapping
     StudentForm toForm(Student student);

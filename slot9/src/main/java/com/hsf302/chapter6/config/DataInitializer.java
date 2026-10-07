@@ -1,40 +1,81 @@
 package com.hsf302.chapter6.config;
 
+import com.hsf302.chapter6.entity.Major;
 import com.hsf302.chapter6.entity.Student;
+import com.hsf302.chapter6.repository.MajorRepository;
 import com.hsf302.chapter6.repository.StudentRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+@Configuration
+public class DataInitializer {
 
-@Component
-public class DataInitializer implements CommandLineRunner {
+    @Bean
+    CommandLineRunner initDatabase(
+            StudentRepository studentRepository,
+            MajorRepository majorRepository) {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(DataInitializer.class);
+        return args -> {
 
-    private final StudentRepository studentRepository;
+            if (studentRepository.count() == 0) {
 
-    public DataInitializer(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+                Major cntt = majorRepository
+                        .findByCodeIgnoreCase("CNTT")
+                        .orElseThrow();
 
-    @Override
-    public void run(String... args) {
-        if (studentRepository.count() > 0) {
-            log.info("Bảng students đã có dữ liệu → bỏ qua seed");
-            return;
-        }
+                Major ktpm = majorRepository
+                        .findByCodeIgnoreCase("KTPM")
+                        .orElseThrow();
 
-        studentRepository.saveAll(List.of(
-                new Student("Nguyễn Văn An", "an@fpt.edu.vn", 20, "CNTT", 3.5),
-                new Student("Trần Thị Bình", "binh@fpt.edu.vn", 21, "KTPM", 3.2),
-                new Student("Lê Minh Cường", "cuong@fpt.edu.vn", 19, "ATTT", 3.8),
-                new Student("Phạm Thị Dung", "dung@fpt.edu.vn", 22, "HTTT", 2.9)
-        ));
+                Major attt = majorRepository
+                        .findByCodeIgnoreCase("ATTT")
+                        .orElseThrow();
 
-        log.info("Đã seed {} sinh viên", studentRepository.count());
+                Major httt = majorRepository
+                        .findByCodeIgnoreCase("HTTT")
+                        .orElseThrow();
+
+                studentRepository.save(
+                        new Student(
+                                "Nguyễn Văn An",
+                                "an@fpt.edu.vn",
+                                20,
+                                cntt,
+                                3.5
+                        )
+                );
+
+                studentRepository.save(
+                        new Student(
+                                "Trần Thị Bình",
+                                "binh@fpt.edu.vn",
+                                21,
+                                ktpm,
+                                3.2
+                        )
+                );
+
+                studentRepository.save(
+                        new Student(
+                                "Lê Minh Cường",
+                                "cuong@fpt.edu.vn",
+                                19,
+                                attt,
+                                3.8
+                        )
+                );
+
+                studentRepository.save(
+                        new Student(
+                                "Phạm Thị Dung",
+                                "dung@fpt.edu.vn",
+                                22,
+                                httt,
+                                2.9
+                        )
+                );
+            }
+        };
     }
 }
