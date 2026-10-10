@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Bootstrap offline</title>
+
+    <link rel="stylesheet"
+          href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="/vendor/bootstrap-icons/bootstrap-icons.min.css">
 </head>
 <body>
-$END$
+<div class="container py-5">
+    <h1 class="text-primary">Bootstrap offline hoạt động!</h1>
+
+    <button class="btn btn-success">
+        <i class="bi bi-check-circle"></i>
+        Kiểm tra thành công
+    </button>
+
+    <div class="alert alert-warning alert-dismissible fade show mt-3"
+         role="alert">
+        Đây là thông báo kiểm tra Bootstrap.
+        <button type="button" class="btn-close"
+                data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
