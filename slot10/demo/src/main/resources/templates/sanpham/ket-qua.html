@@ -1,58 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Kết quả thêm sản phẩm</title>
-    <link rel="stylesheet"
-          th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"/>
+    <th:block th:replace="~{fragments/layout :: commonHead('Kết quả')}"></th:block>
 </head>
 <body>
+
+<nav th:replace="~{fragments/layout :: navbar('sanpham')}"></nav>
+
 <main class="container py-4">
+    <th:block th:replace="~{fragments/layout :: alerts}"></th:block>
 
-    <div th:if="${thongBao}" class="alert alert-success alert-dismissible fade show"
-         role="alert">
-        <span th:text="${thongBao}">Thông báo</span>
-        <button type="button" class="btn-close"
-                data-bs-dismiss="alert" aria-label="Đóng"></button>
-    </div>
-
-    <h2 class="h4 mb-3">Danh sách sản phẩm</h2>
+    <h1 class="h3 mb-3">Kết quả sản phẩm</h1>
 
     <div th:if="${#lists.isEmpty(danhSach)}" class="alert alert-info">
         Chưa có sản phẩm nào.
     </div>
 
-    <table th:unless="${#lists.isEmpty(danhSach)}"
-           class="table table-bordered table-hover bg-white">
-        <thead class="table-dark">
-        <tr>
-            <th>#</th>
-            <th>Tên sản phẩm</th>
-            <th class="text-end">Giá (VNĐ)</th>
-            <th class="text-end">Số lượng</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sp, stat : ${danhSach}">
-            <td th:text="${stat.count}">1</td>
-            <td th:text="${sp.ten}">Sản phẩm mẫu</td>
-            <td class="text-end"
-                th:text="${#numbers.formatDecimal(sp.gia, 1, 'POINT', 0, 'COMMA')}">
-                100000
-            </td>
-            <td class="text-end" th:text="${sp.soLuong}">1</td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:unless="${#lists.isEmpty(danhSach)}" class="table-responsive">
+        <table class="table table-bordered table-hover bg-white">
+            <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Tên sản phẩm</th>
+                <th class="text-end">Giá</th>
+                <th class="text-end">Số lượng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sp, stat : ${danhSach}">
+                <td th:text="${stat.count}">1</td>
+                <td th:text="${sp.ten}">Sản phẩm mẫu</td>
+                <td class="text-end"
+                    th:text="${#numbers.formatDecimal(sp.gia, 1, 2)}">100.00</td>
+                <td class="text-end" th:text="${sp.soLuong}">1</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <a th:href="@{/sanpham/them}" class="btn btn-primary">
-        Thêm sản phẩm
+        Thêm sản phẩm khác
     </a>
-
 </main>
 
-<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
 </body>
 </html>
+
