@@ -37,4 +37,19 @@ public class Student {
 
     @Column(name = "active", nullable = false)
     private boolean active = true;
+
+    public Student() {
+    }
+
+    public Student(Long id, String studentCode, String fullName, String email,
+                   LocalDate dateOfBirth, Double gpa, String major, boolean active) {
+        this.id = id;
+        this.studentCode = studentCode;
+        this.fullName = fullName;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+        this.gpa = gpa;
+        this.major = major;
+        this.active = active;
+    }
 }
