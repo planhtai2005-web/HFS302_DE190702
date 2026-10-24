@@ -1,4 +1,13 @@
-body { background-color: #f5f7fa; }
-.navbar-brand { font-weight: 700; }
-.stat-card .value { font-size: 1.8rem; font-weight: 700; }
-footer { font-size: .9rem; }
+body {
+    background-color: #f8f9fa;
+}
+
+.stat-card .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.navbar .nav-link.active {
+    font-weight: 700;
+    text-decoration: underline;
+}
