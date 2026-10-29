@@ -61,7 +61,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.fu.demologinjavafx/com.fu.ch08.b2.LoginLayoutApp</mainClass>
+                    <mainClass>com.fu.demologinjavafx/com.fu.ch08.b3.RegisterApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
