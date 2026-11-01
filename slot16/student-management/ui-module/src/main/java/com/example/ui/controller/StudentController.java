@@ -7,7 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.springframework.stereotype.Component;
-
+import com.example.data.exception.StudentNotFoundException;
+import com.example.data.exception.ValidationException;
+import java.util.Optional;
 @Component
 public class StudentController {
 
@@ -71,10 +73,77 @@ public class StudentController {
     }
 
     // Các TODO sau (Bài 6)
-    @FXML private void handleAdd()     { }
-    @FXML private void handleUpdate()  { }
-    @FXML private void handleDelete()  { }
-    @FXML private void handleClear()   { }
+    @FXML
+    private void handleAdd() {
+        try {
+            Student created = studentService.create(readForm());
+            showInfo("Added: " + created.getName());
+            handleClear();
+            loadData();
+        } catch (ValidationException | StudentNotFoundException e) {
+            showError(e.getMessage());
+        } catch (Exception e) {
+            showError("System error: " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleUpdate() {
+        Student selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showError("Please select a student first");
+            return;
+        }
+        try {
+            Student edit = readForm();
+            edit.setId(selected.getId());
+            Student updated = studentService.update(edit);
+            showInfo("Updated: " + updated.getName());
+            handleClear();
+            loadData();
+        } catch (ValidationException | StudentNotFoundException e) {
+            showError(e.getMessage());
+        } catch (Exception e) {
+            showError("System error: " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleDelete() {
+        Student selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showError("Please select a student first");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm delete");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Delete student \"" + selected.getName() + "\"?");
+
+        Optional<ButtonType> result = confirm.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
+
+        try {
+            studentService.delete(selected.getId());
+            showInfo("Deleted: " + selected.getName());
+            handleClear();
+            loadData();
+        } catch (ValidationException | StudentNotFoundException e) {
+            showError(e.getMessage());
+        } catch (Exception e) {
+            showError("System error: " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleClear() {
+        idField.clear();
+        nameField.clear();
+        emailField.clear();
+        ageField.clear();
+        tableView.getSelectionModel().clearSelection();
+        nameField.requestFocus();
+    }
 
     // TODO 5.5
     private void fillForm(Student s) {
@@ -95,5 +164,21 @@ public class StudentController {
     private void showError(String message) {
         messageLabel.setStyle("-fx-text-fill: red;");
         messageLabel.setText(message);
+    }
+    private Student readForm() {
+        String name = nameField.getText();
+        String email = emailField.getText();
+        String ageText = ageField.getText() == null ? "" : ageField.getText().trim();
+
+        if (ageText.isEmpty()) {
+            throw new ValidationException("Age is required");
+        }
+        int age;
+        try {
+            age = Integer.parseInt(ageText);
+        } catch (NumberFormatException e) {
+            throw new ValidationException("Age must be a number");
+        }
+        return new Student(name, email, age);
     }
 }
