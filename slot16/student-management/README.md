@@ -2,7 +2,7 @@
 
 Ứng dụng quản lý sinh viên bằng **JavaFX + Spring Boot + Spring Data JPA**, theo kiến trúc N-Layer, Maven multi-module.
 
-- Tác giả: _<Họ tên> - <Mã sinh viên>_
+- Tác giả: _<Phạm Lê Anh Tài> - <DE190702>_
 - Môn: HSF302 - Slot 16
 
 ## Chức năng
