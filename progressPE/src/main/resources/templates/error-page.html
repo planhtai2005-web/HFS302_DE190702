@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light text-dark">
+<div class="container my-4" style="max-width: 800px;">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">Error</h2>
+            <div class="alert alert-danger" th:text="${errorMessage}"></div>
+            <a th:href="@{/}" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

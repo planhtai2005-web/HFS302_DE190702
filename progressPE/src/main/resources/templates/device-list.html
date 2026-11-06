@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Device Management</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light text-dark">
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">Smart Device Management</h2>
+
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <form class="row g-2 align-items-center mb-3" method="get" th:action="@{/}">
+                <div class="col-auto">
+                    <label for="deviceName" class="col-form-label fw-bold">Device Name:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" id="deviceName" name="deviceName"
+                           th:value="${deviceName}" placeholder="Enter device name...">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+                <div class="col text-end">
+                    <a th:href="@{/add}" class="btn btn-outline-primary">Add New</a>
+                </div>
+            </form>
+
+            <div th:if="${#lists.isEmpty(devices)}" class="alert alert-info">No records found</div>
+
+            <table class="table table-bordered table-striped align-middle" th:unless="${#lists.isEmpty(devices)}">
+                <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Code</th>
+                    <th>Device Name</th>
+                    <th>Category</th>
+                    <th>Price ($)</th>
+                    <th>Installation Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="device, iter : ${devices}">
+                    <td th:text="${iter.count}"></td>
+                    <td th:text="${device.deviceCode}"></td>
+                    <td th:text="${device.deviceName}"></td>
+                    <td th:text="${device.category.categoryName}"></td>
+                    <td th:text="${device.price}"></td>
+                    <td th:text="${#temporals.format(device.installationDate, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <span th:if="${device.status == 'AC'}">Active</span>
+                        <span th:if="${device.status == 'IN'}">Inactive</span>
+                        <span th:if="${device.status == 'DR'}">Draft</span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/view/' + ${device.deviceId}}">View</a> |
+                        <a href="#" class="text-danger"
+                           th:attr="data-id=${device.deviceId},data-name=${device.deviceName}"
+                           onclick="confirmDelete(this); return false;">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Q2 - Bootstrap modal confirm dialog (not alert()/confirm()) -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmText" class="mb-0"></p>
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" class="m-0">
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function confirmDelete(link) {
+        var id = link.getAttribute('data-id');
+        var name = link.getAttribute('data-name');
+        document.getElementById('confirmText').textContent = 'Are you sure you want to delete "' + name + '"?';
+        document.getElementById('deleteForm').action = '/delete/' + id;
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).show();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Device Details</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light text-dark">
+<div class="container my-4" style="max-width: 800px;">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="mb-3">View Device Details</h2>
+
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <div th:if="${device != null}" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Device Code:</label>
+                    <div class="form-control bg-body-secondary" th:text="${device.deviceCode}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Category:</label>
+                    <div class="form-control bg-body-secondary" th:text="${device.category.categoryName}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Device Name:</label>
+                    <div class="form-control bg-body-secondary" th:text="${device.deviceName}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Price ($):</label>
+                    <div class="form-control bg-body-secondary" th:text="${device.price}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Warranty (months):</label>
+                    <div class="form-control bg-body-secondary" th:text="${device.warrantyMonths}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Installation Date:</label>
+                    <div class="form-control bg-body-secondary" th:text="${#temporals.format(device.installationDate, 'dd/MM/yyyy')}"></div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Status:</label>
+                    <div class="form-control bg-body-secondary">
+                        <span th:if="${device.status == 'AC'}">Active</span>
+                        <span th:if="${device.status == 'IN'}">Inactive</span>
+                        <span th:if="${device.status == 'DR'}">Draft</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a th:href="@{/}" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
