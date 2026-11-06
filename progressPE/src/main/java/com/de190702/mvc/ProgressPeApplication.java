@@ -1,4 +1,4 @@
-package com.de190702.mvc.ProgressPE;
+package com.de190702.mvc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,3 +11,4 @@ public class ProgressPeApplication {
 	}
 
 }
+
